@@ -1,8 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
 
 public class TestPane extends JPanel {
-
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(200, 200);
@@ -16,6 +17,7 @@ public class TestPane extends JPanel {
         g.setColor(Color.BLACK);
         g.fillOval(100, 100, 30, 30);
         g.setColor(Color.RED);
-        g.fill3DRect(40,40,20,20, true);
+        g.fill3DRect(40, 40, 20, 20, true);
     }
+
 }
