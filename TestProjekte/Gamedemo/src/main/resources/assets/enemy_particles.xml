@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<particle-emitter name="EnemyParticles" num-particles="20">
+    <particle image="particle.png" life="1000" fadeIn="500" fadeOut="500">
+        <initializers>
+            <velocity polar="true" min="0" max="50" />
+            <color fixed="0xff0000" />
+            <size fixed="5" />
+        </initializers>
+        <updaters>
+            <velocity />
+            <color fade="0x000000" />
+        </updaters>
+    </particle>
+</particle-emitter>
