@@ -4,12 +4,15 @@ import javafx.scene.image.Image;
 
 public abstract class Entity {
 
-    public Image image;
-    public int hp;
-    public int maxHp;
-    public int posX;
+    private Image image;
+    private int hp;
+    private int maxHp;
+    private int posX;
+    private int posY;
+    private int dimensionsX;
+    private int dimensionsY;
 
-    public Entity(int posX, int posY) {
+    protected Entity(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
     }
@@ -62,7 +65,4 @@ public abstract class Entity {
         this.hp -= damage;
     }
 
-    public int posY;
-    public int dimensionsX;
-    public int dimensionsY;
 }
