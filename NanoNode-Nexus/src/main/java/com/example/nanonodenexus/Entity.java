@@ -7,30 +7,33 @@ public abstract class Entity {
     private Image image;
     private int hp;
     private int maxHp;
-    private int posX;
-    private int posY;
-    private int dimensionsX;
-    private int dimensionsY;
 
-    protected Entity(int posX, int posY) {
-        this.posX = posX;
-        this.posY = posY;
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    private Point position;
+    private Point dimensions;
+
+    protected Entity(Point position) {
+        this.position = position;
+    }
+
+    public Point getPosition() {
+        return this.position;
     }
 
     public int getMaxHp() {
-        return maxHp;
+        return this.maxHp;
     }
 
-    public int getDimensionsX() {
-        return dimensionsX;
+    public Point getDimensions() {
+        return this.dimensions;
     }
 
-    public int getDimensionsY() {
-        return dimensionsY;
-    }
 
     public Image getImage() {
-        return image;
+        return this.image;
     }
 
     public void setImage(Image image) {
@@ -38,27 +41,11 @@ public abstract class Entity {
     }
 
     public int getHp() {
-        return hp;
+        return this.hp;
     }
 
     public void setHp(int hp) {
         this.hp = hp;
-    }
-
-    public int getPosX() {
-        return posX;
-    }
-
-    public void setPosX(int posX) {
-        this.posX = posX;
-    }
-
-    public int getPosY() {
-        return posY;
-    }
-
-    public void setPosY(int posY) {
-        this.posY = posY;
     }
 
     public void takeDamage (int damage) {

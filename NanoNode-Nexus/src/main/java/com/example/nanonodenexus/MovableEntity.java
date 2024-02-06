@@ -2,32 +2,28 @@ package com.example.nanonodenexus;
 
 public class MovableEntity extends Entity {
 
-    private int dirX;
-    private int dirY;
+    private Point direction;
     private int speed;
 
-    protected MovableEntity(int posX, int posY) {
-        super(posX, posY);
+    protected MovableEntity(Point position) {
+        super(position);
     }
 
     public void move() {
-        this.setPosX(this.getPosX() + this.dirX);
-        this.setPosY(this.getPosY() + this.dirY);
+        Point pos = this.getPosition();
+        this.setPosition(new Point(
+                pos.x() + direction.x(),
+                pos.y() + direction.y()
+        ));
     }
-    public int getDirX() {
-        return dirX;
-    }
-
-    public void setDirX(int dirX) {
-        this.dirX = dirX;
-    }
-
-    public int getDirY() {
-        return dirY;
+    public Point getDirection() {
+        return this.direction;
     }
 
-    public void setDirY(int dirY) {
-        this.dirY = dirY;
+
+
+    public void setDirection(Point direction) {
+        this.direction = direction;
     }
 
     public int getSpeed() {

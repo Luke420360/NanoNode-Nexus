@@ -5,8 +5,8 @@ public class Enemy extends MovableEntity{
     private int damage;
     private int droppedIron;
 
-    protected Enemy(int posX, int posY) {
-        super(posX, posY);
+    protected Enemy(Point position) {
+        super(position);
     }
 
     public int getDamage() {
