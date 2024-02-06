@@ -4,9 +4,9 @@ public abstract class DefenseTower extends Entity {
     private int damage;
     private int cost;
     private int range;
-
-    protected DefenseTower(int posX, int posY) {
-        super(new Point(posX, posY));
+    
+    protected DefenseTower(Point position) {
+        super(position);
     }
 
     /**

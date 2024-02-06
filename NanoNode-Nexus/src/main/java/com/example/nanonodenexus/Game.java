@@ -7,11 +7,11 @@ public class Game {
 
     private List<Entity> entities;
     private int iron;
-    // private Renderer renderer;
-    public Game() {
+    private Renderer renderer;
+    public Game(Renderer renderer) {
         this.entities = new ArrayList<>();
         this.iron = 0;
-        // this.renderer = new Renderer();
+        this.renderer = new Renderer();
     }
 
     public void addEntity(Entity entity) {
@@ -37,6 +37,9 @@ public class Game {
     }
 
     public void update() {
-        // updating all entities
+        for (Entity entity : entities) {
+            renderer.renderEntity(entity);
+        }
+
     }
 }

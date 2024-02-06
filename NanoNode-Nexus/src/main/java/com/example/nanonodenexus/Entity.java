@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 public abstract class Entity {
 
-    private Image image;
+    private String image;
     private int hp;
     private int maxHp;
 
@@ -32,11 +32,11 @@ public abstract class Entity {
     }
 
 
-    public Image getImage() {
+    public String getImage() {
         return this.image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
