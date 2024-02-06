@@ -6,7 +6,7 @@ public abstract class DefenseTower extends Entity {
     private int range;
 
     protected DefenseTower(int posX, int posY) {
-        super(posX, posY);
+        super(new Point(posX, posY));
     }
 
     /**
