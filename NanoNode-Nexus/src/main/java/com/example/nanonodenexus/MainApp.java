@@ -2,8 +2,11 @@ package com.example.nanonodenexus;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import javafx.application.Application;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -11,11 +14,12 @@ import java.util.List;
 
 public class MainApp extends GameApplication {
 
-    private List<Entity> gameObjects;
+    // private List<Entity> gameObjects;
+    private Game game;
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setFullScreenFromStart(true);
-        settings.setFullScreenAllowed(true);
+        //settings.setFullScreenFromStart(true);
+        //settings.setFullScreenAllowed(true);
         settings.setTitle("NanoNode - Nexus");
         settings.setVersion("0.1");
     }
@@ -26,8 +30,33 @@ public class MainApp extends GameApplication {
     @Override
     protected void initGame() {
         Renderer renderer = new Renderer();
-        Game game = new Game(renderer);
-        game.addEntity(new DefenseTowerSimple(new Point(10, 10)));
-        game.update();
+        game = new Game(renderer);
+        //DefenseTowerSimple tower = new DefenseTowerSimple(new Point(10, 10));
+        //game.addEntity(tower);
+        //game.update();
+    }
+
+    @Override
+    protected void initInput() {
+
+        FXGL.getInput().addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                List<Entity> entities = FXGL.getGameWorld().getEntitiesAt(FXGL.getInput().getMousePositionWorld());
+
+                for (Entity entity : entities) {
+                    game.getEntity(entity).die();
+                }
+            }
+            else if (event.getButton() == MouseButton.PRIMARY) {
+                double x = FXGL.getInput().getMouseXWorld();
+                double y = FXGL.getInput().getMouseYWorld();
+                System.out.println("Primary button clicked at: " + x + ", " + y);
+                DefenseTowerSimple tower = new DefenseTowerSimple(new Point((int)x, (int)y));
+                game.addEntity(tower);
+                game.removeIron(tower.getCost());
+
+
+            }
+        });
     }
 }

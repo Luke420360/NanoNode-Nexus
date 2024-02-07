@@ -7,11 +7,20 @@ public class Game {
 
     private List<Entity> entities;
     private int iron;
-    private Renderer renderer;
+    private final Renderer renderer;
     public Game(Renderer renderer) {
         this.entities = new ArrayList<>();
-        this.iron = 0;
+        this.iron = 1000;
         this.renderer = new Renderer();
+    }
+
+    public Entity getEntity(com.almasb.fxgl.entity.Entity removedEntity) {
+        for (Entity entity : entities) {
+            if (entity.getGameEntity().equals(removedEntity)) {
+                return entity;
+            }
+        }
+        return null;
     }
 
     public void addEntity(Entity entity) {
@@ -28,18 +37,17 @@ public class Game {
 
     public int addIron(int iron) {
         this.iron += iron;
+        System.out.printf("Added " + iron + "iron. now total " + this.iron);
         return this.iron;
     }
 
     public int removeIron(int iron) {
         this.iron -= iron;
+        System.out.printf("removed " + iron + "iron. now total " + this.iron);
         return this.iron;
     }
 
     public void update() {
-        for (Entity entity : entities) {
-            renderer.renderEntity(entity);
-        }
 
     }
 }

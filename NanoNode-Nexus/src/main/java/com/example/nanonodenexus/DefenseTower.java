@@ -2,7 +2,7 @@ package com.example.nanonodenexus;
 
 public abstract class DefenseTower extends Entity {
     private int damage;
-    private int cost;
+    protected int cost;
     private int range;
     
     protected DefenseTower(Point position) {
