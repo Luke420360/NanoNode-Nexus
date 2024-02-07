@@ -58,6 +58,7 @@ public abstract class Entity {
                 .at(this.position.x(), this.position.y())
                 .view(rct)
                 .with(new EffectComponent())
+                .collidable()
                 .buildAndAttach();
     }
 

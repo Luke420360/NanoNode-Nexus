@@ -14,9 +14,13 @@ public class Game {
         this.renderer = new Renderer();
     }
 
-    public Entity getEntity(com.almasb.fxgl.entity.Entity removedEntity) {
+    public Entity getEntity(int x, int y) {
         for (Entity entity : entities) {
-            if (entity.getGameEntity().equals(removedEntity)) {
+            int x2 = entity.getPosition().x();
+            int y2 = entity.getPosition().y();
+            int dimX = entity.getDimensions().x();
+            int dimY = entity.getDimensions().y();
+            if ((x2 <= x && x <= x2+dimX) && (y2 <= y && y <= y2+dimY)) {
                 return entity;
             }
         }

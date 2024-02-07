@@ -3,8 +3,8 @@ package com.example.nanonodenexus;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.Entity;
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -41,11 +41,12 @@ public class MainApp extends GameApplication {
 
         FXGL.getInput().addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
-                List<Entity> entities = FXGL.getGameWorld().getEntitiesAt(FXGL.getInput().getMousePositionWorld());
+                double x = FXGL.getInput().getMouseXWorld();
+                double y = FXGL.getInput().getMouseYWorld();
+                Entity clickedEntity = game.getEntity((int) x, (int) y);
 
-                for (Entity entity : entities) {
-                    game.getEntity(entity).die();
-                }
+                if (clickedEntity != null)
+                    System.out.printf(clickedEntity.toString());
             }
             else if (event.getButton() == MouseButton.PRIMARY) {
                 double x = FXGL.getInput().getMouseXWorld();
