@@ -6,7 +6,7 @@ public class DefenseTowerSimple extends DefenseTower{
     protected DefenseTowerSimple(Point position) {
         super(position);
         this.cost = 200;
-        this.dimensions = new Point(10, 10);
+        this.dimensions = new Point(64, 64);
         this.setImage("defenseTowerSimple.png");
     }
 }

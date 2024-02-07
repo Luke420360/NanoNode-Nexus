@@ -4,6 +4,8 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.EffectComponent;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
 
 public abstract class Entity {
 
@@ -49,11 +51,13 @@ public abstract class Entity {
 
     public void setImage(String image) {
         this.image = image;
+        Rectangle rct = new Rectangle(dimensions.x(),dimensions.y());
+        Image img = new Image("assets/textures/" + image);
+        rct.setFill(new ImagePattern(img));
         this.gameEntity = FXGL.entityBuilder()
                 .at(this.position.x(), this.position.y())
-                .view(this.image)
+                .view(rct)
                 .with(new EffectComponent())
-                .scale(0.1, 0.1)
                 .buildAndAttach();
     }
 

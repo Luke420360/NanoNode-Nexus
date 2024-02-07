@@ -19,3 +19,7 @@ a
 1src/main/java/com/example/nanonodenexus/Game.java,0\5\056f23b13a4f4b470ba0384013e4425f0955df83
 i
 9src/main/java/com/example/nanonodenexus/DBConnection.java,8\b\8bf2ebaa3565d81a712ceeddbd348a2debe6a63f
+o
+?src/main/java/com/example/nanonodenexus/DefenseTowerSimple.java,d\1\d14a0f58943f62a8affa5599f5b7347ef8d2c797
+c
+3src/main/java/com/example/nanonodenexus/Entity.java,0\1\01f10b4e990c8193e29e9639f4d3dd9c87159d1b
