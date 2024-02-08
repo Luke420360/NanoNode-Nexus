@@ -23,3 +23,8 @@ o
 ?src/main/java/com/example/nanonodenexus/DefenseTowerSimple.java,d\1\d14a0f58943f62a8affa5599f5b7347ef8d2c797
 c
 3src/main/java/com/example/nanonodenexus/Entity.java,0\1\01f10b4e990c8193e29e9639f4d3dd9c87159d1b
+c
+3src/main/java/com/example/nanonodenexus/Player.java,5\3\53c2f46db18f881d3d4ea526a2899512376187ca
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302

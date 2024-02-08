@@ -32,6 +32,8 @@ public class MainApp extends GameApplication {
         Renderer renderer = new Renderer();
         game = new Game(renderer);
         //DefenseTowerSimple tower = new DefenseTowerSimple(new Point(10, 10));
+        Player player = new Player(new Point(10, 10));
+        game.addEntity(player);
         //game.addEntity(tower);
         //game.update();
     }
