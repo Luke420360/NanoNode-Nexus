@@ -2,7 +2,6 @@ package com.example.nanonodenexus;
 
 public abstract class DefenseTower extends Entity {
     private int damage;
-    protected int cost;
     private int range;
     
     protected DefenseTower(Point position, int maxHp, Point dimensions) {
@@ -15,14 +14,6 @@ public abstract class DefenseTower extends Entity {
      */
     protected void shoot(Entity entity) {
         entity.takeDamage(damage);
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 
     public int getRange() {

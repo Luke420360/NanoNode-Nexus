@@ -10,13 +10,22 @@ import javafx.scene.shape.Rectangle;
 
 public abstract class Entity {
 
+    protected Entity(Point position, int maxHP, Point dimensions) {
+        this.position = position;
+        this.maxHp = maxHP;
+        this.dimensions = dimensions;
+        setHp(maxHP);
+    }
     private String image;
     private int hp;
-    private int maxHp;
+    private final int maxHp;
     private com.almasb.fxgl.entity.Entity gameEntity;
     private com.almasb.fxgl.entity.Entity healthBar = null;
     private double healthBarWidth;
     private Rectangle rect;
+    private Point position;
+    private Point cords;
+    protected Point dimensions;
 
     public void setPosition(Point position) {
         this.position = position;
@@ -24,15 +33,6 @@ public abstract class Entity {
 
     public com.almasb.fxgl.entity.Entity getGameEntity() {
         return this.gameEntity;
-    }
-    private Point position;
-    protected Point dimensions;
-
-    protected Entity(Point position, int maxHP, Point dimensions) {
-        this.position = position;
-        this.maxHp = maxHP;
-        this.dimensions = dimensions;
-        setHp(maxHP);
     }
 
     public Point getPosition() {
@@ -47,12 +47,13 @@ public abstract class Entity {
         return this.dimensions;
     }
 
-
     public String getImage() {
         return this.image;
     }
 
     public void die() {
+        Game game = FXGL.geto("gameInstance");
+        game.removeEntity(this);
         FXGL.getGameWorld().removeEntity(this.gameEntity);
     }
 
@@ -90,6 +91,8 @@ public abstract class Entity {
     }
 
     public void takeDamage (int damage) {
-       setHp(hp-damage);
+        if (this.hp <= damage)
+            this.die();
+        this.setHp(hp-damage);
     }
 }
