@@ -5,8 +5,8 @@ public class MovableEntity extends Entity {
     private Point direction;
     private int speed;
 
-    protected MovableEntity(Point position) {
-        super(position);
+    protected MovableEntity(Point position, int maxHp, Point dimensions) {
+        super(position, maxHp, dimensions);
     }
 
     public void move() {

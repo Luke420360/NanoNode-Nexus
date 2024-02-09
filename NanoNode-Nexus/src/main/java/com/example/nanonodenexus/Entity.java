@@ -14,8 +14,9 @@ public abstract class Entity {
     private int hp;
     private int maxHp;
     private com.almasb.fxgl.entity.Entity gameEntity;
-    private Rectangle healthBar;
+    private com.almasb.fxgl.entity.Entity healthBar = null;
     private double healthBarWidth;
+    private Rectangle rect;
 
     public void setPosition(Point position) {
         this.position = position;
@@ -27,8 +28,11 @@ public abstract class Entity {
     private Point position;
     protected Point dimensions;
 
-    protected Entity(Point position) {
+    protected Entity(Point position, int maxHP, Point dimensions) {
         this.position = position;
+        this.maxHp = maxHP;
+        this.dimensions = dimensions;
+        setHp(maxHP);
     }
 
     public Point getPosition() {
@@ -58,16 +62,11 @@ public abstract class Entity {
         Image img = new Image("assets/textures/" + image);
         rct.setFill(new ImagePattern(img));
 
-        healthBar = new Rectangle(dimensions.x(), 5);
-        healthBar.setFill(Color.GREEN);
-        healthBarWidth = dimensions.x();
-
         this.gameEntity = FXGL.entityBuilder()
                 .at(this.position.x(), this.position.y())
                 .view(rct)
                 .with(new EffectComponent())
                 .collidable()
-                .view(healthBar)
                 .buildAndAttach();
     }
 
@@ -76,14 +75,21 @@ public abstract class Entity {
     }
 
     public void setHp(int hp) {
+        if (healthBar == null) {
+            rect = new Rectangle(dimensions.x(), 5);
+            rect.setFill(Color.GREEN);
+            healthBarWidth = dimensions.x();
+            healthBar = FXGL.entityBuilder()
+                    .at(position.x(), position.y() -5)
+                    .view(rect)
+                    .buildAndAttach();
+        }
         this.hp = hp;
         double healthRatio = (double) hp / maxHp;
-        healthBar.setWidth(healthBarWidth * healthRatio);
+        rect.setWidth(healthBarWidth * healthRatio);
     }
 
     public void takeDamage (int damage) {
-
-        this.hp -= damage;
-        setHp(this.hp);
+       setHp(hp-damage);
     }
 }

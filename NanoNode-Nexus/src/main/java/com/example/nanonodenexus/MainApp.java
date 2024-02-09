@@ -49,8 +49,8 @@ public class MainApp extends GameApplication {
             boolean topWall = mazeCell.hasTopWall();
             boolean leftWall = mazeCell.hasLeftWall();
 
-            Rectangle rect = new Rectangle(48, 48, Color.AQUA);
-            com.almasb.fxgl.entity.Entity cellEntity = FXGL.entityBuilder()
+            Rectangle rect = new Rectangle(48, 48, Color.GREY);
+            FXGL.entityBuilder()
                     .at((x * 48) + (topWall ? 2 : 0), (y * 48) + (leftWall ? 2 : 0))
                     .view(rect)
                     .with(new EffectComponent())
@@ -69,7 +69,7 @@ public class MainApp extends GameApplication {
                 Entity clickedEntity = game.getEntity((int) x, (int) y);
 
                 if (clickedEntity != null)
-                    clickedEntity.die();
+                    clickedEntity.takeDamage(50);
             }
             else if (event.getButton() == MouseButton.PRIMARY) {
                 int x = (int) FXGL.getInput().getMouseXWorld() - (int) FXGL.getInput().getMouseXWorld() % 48 + 8;

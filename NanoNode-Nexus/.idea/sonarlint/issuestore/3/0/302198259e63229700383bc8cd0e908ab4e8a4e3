@@ -1,7 +1,19 @@
 
-X	java:S125"<This block of commented-out lines of code should be removed.(ïÕ´“8áİé¿Ø1
-]	java:S125"<This block of commented-out lines of code should be removed.(î˜‚úÿÿÿÿ8çİé¿Ø1
-]	java:S125""<This block of commented-out lines of code should be removed.(×èäıÿÿÿÿ8íİé¿Ø1
-]	java:S125%"<This block of commented-out lines of code should be removed.(Óµ§¬ûÿÿÿÿ8¿ñë¿Ø1
-G	java:S1063"+Replace this use of System.out by a logger.(ë¤œï8ùİé¿Ø1
-L	java:S1068"+Replace this use of System.out by a logger.(ÊÌŒÿÿÿÿÿ8ûİé¿Ø1
+d
+java:S21846"BCast one of the operands of this addition operation to a "double".(„ÕÄºøÿÿÿÿ8âõ³ÁØ1
+d
+java:S21846"BCast one of the operands of this addition operation to a "double".(„ÕÄºøÿÿÿÿ8âõ³ÁØ1
+p
+java:S1450"SRemove the "maze" field and declare it as a local variable in the relevant methods.(üªÒÙ8õõ³ÁØ1
+X	java:S125"<This block of commented-out lines of code should be removed.(ïÕ´“8öõ³ÁØ1
+]	java:S125"<This block of commented-out lines of code should be removed.(î˜‚úÿÿÿÿ8øõ³ÁØ1
+L	java:S106M"+Replace this use of System.out by a logger.(ÊÌŒÿÿÿÿÿ8ƒö³ÁØ1
+W
+java:S1128	";Remove this unused import 'javafx.application.Application'.(í™şj8¯áµÁØ1
+V
+java:S1128
+"4Remove this unused import 'javafx.geometry.Point2D'.(¦¨–íûÿÿÿÿ8¯áµÁØ1
+Q
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8¯áµÁØ1
+R
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8¯áµÁØ1
