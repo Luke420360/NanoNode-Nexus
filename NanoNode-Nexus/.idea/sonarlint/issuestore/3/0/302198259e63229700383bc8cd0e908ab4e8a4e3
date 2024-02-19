@@ -1,19 +1,32 @@
 
-d
-java:S21846"BCast one of the operands of this addition operation to a "double".(„ÕÄºøÿÿÿÿ8âõ³ÁØ1
-d
-java:S21846"BCast one of the operands of this addition operation to a "double".(„ÕÄºøÿÿÿÿ8âõ³ÁØ1
+k
+java:S1192>"NDefine a constant instead of duplicating this literal "maceCellWidth" 3 times.(ï¥¸İ8ïëò„Ü1
+_
+java:S2184["BCast one of the operands of this addition operation to a "double".(˜šıí8ğëò„Ü1
+_
+java:S2184["BCast one of the operands of this addition operation to a "double".(˜šıí8ğëò„Ü1
 p
-java:S1450"SRemove the "maze" field and declare it as a local variable in the relevant methods.(üªÒÙ8õõ³ÁØ1
-X	java:S125"<This block of commented-out lines of code should be removed.(ïÕ´“8öõ³ÁØ1
-]	java:S125"<This block of commented-out lines of code should be removed.(î˜‚úÿÿÿÿ8øõ³ÁØ1
-L	java:S106M"+Replace this use of System.out by a logger.(ÊÌŒÿÿÿÿÿ8ƒö³ÁØ1
+java:S1450"SRemove the "maze" field and declare it as a local variable in the relevant methods.(üªÒÙ8‰ìò„Ü1
+X	java:S125"<This block of commented-out lines of code should be removed.(ïÕ´“8‹ìò„Ü1
+]	java:S125"<This block of commented-out lines of code should be removed.(î˜‚úÿÿÿÿ8’ìò„Ü1
+f
+java:S6201,"DReplace this instanceof check and cast with 'instanceof Enemy enemy'(Š¢‚·ÿÿÿÿÿ8”ìò„Ü1
+G
+java:S3457-"%String contains no format specifiers.(éëÁ‹şÿÿÿÿ8”ìò„Ü1
+L	java:S106-"+Replace this use of System.out by a logger.(éëÁ‹şÿÿÿÿ8”ìò„Ü1
+{
+java:S62010"^Replace this instanceof check and cast with 'instanceof DefenseTowerSimple defensetowersimple'(Ï÷Ôé8”ìò„Ü1
+c
+java:S62013"FReplace this instanceof check and cast with 'instanceof Player player'(¡Ôæç8”ìò„Ü1
+i
+java:S62016"LReplace this instanceof check and cast with 'instanceof EnemyBase enemybase'(¥äˆ8•ìò„Ü1
+L	java:S106w"+Replace this use of System.out by a logger.(ÊÌŒÿÿÿÿÿ8ìò„Ü1
 W
-java:S1128	";Remove this unused import 'javafx.application.Application'.(í™şj8‡ºş´Ú1
+java:S1128	";Remove this unused import 'javafx.application.Application'.(í™şj8Ÿìò„Ü1
 V
 java:S1128
-"4Remove this unused import 'javafx.geometry.Point2D'.(¦¨–íûÿÿÿÿ8‡ºş´Ú1
+"4Remove this unused import 'javafx.geometry.Point2D'.(¦¨–íûÿÿÿÿ8Ÿìò„Ü1
 Q
-java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8ˆºş´Ú1
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8Ÿìò„Ü1
 R
-java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8ˆºş´Ú1
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8Ÿìò„Ü1

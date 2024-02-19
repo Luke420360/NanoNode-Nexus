@@ -27,6 +27,10 @@ public class Game {
         return null;
     }
 
+    public List<Entity> getAllEntity() {
+        return entities;
+    }
+
     public void addEntity(Entity entity) {
         this.entities.add(entity);
     }

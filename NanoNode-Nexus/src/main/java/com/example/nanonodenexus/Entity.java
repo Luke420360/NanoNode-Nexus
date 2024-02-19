@@ -2,13 +2,16 @@ package com.example.nanonodenexus;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.EffectComponent;
+import com.almasb.fxgl.dsl.components.HealthIntComponent;
+import com.almasb.fxgl.entity.component.Component;
+import com.example.nanonodenexus.Components.HealthbarComponent;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-public abstract class Entity {
+public abstract class Entity extends Component {
 
     protected Entity(Point position, int maxHP, Point dimensions) {
         this.position = position;
@@ -16,6 +19,7 @@ public abstract class Entity {
         this.dimensions = dimensions;
         setHp(maxHP);
     }
+
     private String image;
     private int hp;
     private final int maxHp;
@@ -67,6 +71,8 @@ public abstract class Entity {
                 .at(this.position.x(), this.position.y())
                 .view(rct)
                 .with(new EffectComponent())
+                .with(new HealthIntComponent(this.hp))
+                .with(new HealthbarComponent())
                 .collidable()
                 .buildAndAttach();
     }
@@ -76,23 +82,13 @@ public abstract class Entity {
     }
 
     public void setHp(int hp) {
-        if (healthBar == null) {
-            rect = new Rectangle(dimensions.x(), 5);
-            rect.setFill(Color.GREEN);
-            healthBarWidth = dimensions.x();
-            healthBar = FXGL.entityBuilder()
-                    .at(position.x(), position.y() -5)
-                    .view(rect)
-                    .buildAndAttach();
-        }
         this.hp = hp;
-        double healthRatio = (double) hp / maxHp;
-        rect.setWidth(healthBarWidth * healthRatio);
     }
 
     public void takeDamage (int damage) {
         if (this.hp <= damage)
             this.die();
         this.setHp(hp-damage);
+        this.getGameEntity().getComponent(HealthIntComponent.class).damage(damage);
     }
 }

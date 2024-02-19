@@ -34,3 +34,13 @@ j
 :src/main/java/com/example/nanonodenexus/MovableEntity.java,4\5\4552c592b9114fbca5da32ad39029a0537ff8471
 a
 1src/main/java/com/example/nanonodenexus/Base.java,d\1\d126c96fe24ef11c7fccb1d4dacf040cfbb161ba
+f
+6src/main/java/com/example/nanonodenexus/EnemyBase.java,b\f\bf7cb9a0dddcb2aa408cfeca4c42d500f909c6d6
+k
+;src/main/java/com/example/nanonodenexus/data/EnemyData.java,a\7\a7dfec7a9f7b3a238e2f927dc5753ba0184125dd
+g
+7src/main/java/com/example/nanonodenexus/NNNFactory.java,4\8\4899fa1e4e3ace9987bb6fd9bc3de90a922bdfaf
+q
+Asrc/main/java/com/example/nanonodenexus/Components/Healthbar.java,b\4\b43012c19f40066f63081e2ee90a407a81d3b024
+z
+Jsrc/main/java/com/example/nanonodenexus/Components/HealthbarComponent.java,c\9\c9887b349c1791cc251ed66c0a86ff3c722b9e91

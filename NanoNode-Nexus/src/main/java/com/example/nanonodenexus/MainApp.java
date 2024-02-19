@@ -29,11 +29,32 @@ public class MainApp extends GameApplication {
     @Override
     protected void initSettings(GameSettings settings) {
         //settings.setFullScreenFromStart(true);
-        //settings.setFullScreenAllowed(true);
+        settings.setFullScreenAllowed(true);
         settings.setWidth(960);
         settings.setHeight(960);
         settings.setTitle("NanoNode - Nexus");
         settings.setVersion("0.1");
+    }
+
+    @Override
+    protected  void onUpdate(double tpf) {
+        super.onUpdate(tpf);
+        List<Entity> entities = game.getAllEntity();
+        for (Entity en : entities) {
+            if(en instanceof Enemy) {
+                System.out.printf("Enemy");
+                ((Enemy) en).onUpdate(tpf);
+            }
+            else if (en instanceof DefenseTowerSimple) {
+                ((DefenseTowerSimple) en).onUpdate(tpf);
+            }
+            else if (en instanceof Player) {
+                ((Player) en).onUpdate(tpf);
+            }
+            else if (en instanceof EnemyBase) {
+                ((EnemyBase) en).onUpdate(tpf);
+            }
+        }
     }
 
     @Override
@@ -55,10 +76,7 @@ public class MainApp extends GameApplication {
 
     @Override
     protected void initGame() {
-        Renderer renderer = new Renderer();
-        //game = new Game(renderer);
-        Player player = new Player(new Point(10, 10));
-        game.addEntity(player);
+
         maze = new Maze(20, 20);
         List<MazeCell> mazeCells = maze.getCells();
         for (MazeCell mazeCell : mazeCells) {
@@ -75,6 +93,12 @@ public class MainApp extends GameApplication {
                     .with(new EffectComponent())
                     .buildAndAttach();
         }
+        Player player = new Player(new Point(10, 10));
+        Enemy enemy = new Enemy(new Point(200, 200),250, new Point(40, 40), player);
+        EnemyBase enemyBase = new EnemyBase(new Point(500, 500), 900, new Point(40,40));
+        game.addEntity(enemyBase);
+        game.addEntity(player);
+        game.addEntity(enemy);
     }
 
     @Override
@@ -85,7 +109,6 @@ public class MainApp extends GameApplication {
                 double x = FXGL.getInput().getMouseXWorld();
                 double y = FXGL.getInput().getMouseYWorld();
                 Entity clickedEntity = game.getEntity((int) x, (int) y);
-
                 if (clickedEntity != null)
                     clickedEntity.takeDamage(50);
             }
@@ -101,8 +124,6 @@ public class MainApp extends GameApplication {
                     game.removeIron(DefenseTowerSimple.cost);
                     textPixels.setText("Iron: " + game.getIron());
                 }
-
-
             }
         });
     }
