@@ -5,8 +5,11 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.EffectComponent;
-import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.pathfinding.Pathfinder;
+import com.almasb.fxgl.pathfinding.astar.AStarCell;
+import com.almasb.fxgl.pathfinding.astar.AStarGrid;
+import com.almasb.fxgl.pathfinding.astar.AStarPathfinder;
 import com.almasb.fxgl.pathfinding.maze.Maze;
 import com.almasb.fxgl.pathfinding.maze.MazeCell;
 import com.example.nanonodenexus.data.EnemyBaseData;
@@ -24,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +38,10 @@ public class MainApp extends GameApplication {
     // private List<Entity> gameObjects;
     private Game game = new Game(new Renderer());
     private Maze maze;
+    private Enemy enemy;
     Text textPixels = new Text("Iron: -");
+    private AStarGrid aStarGrid = new AStarGrid(20, 20);
+    private MazePathfinding pathfinding;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -87,6 +94,7 @@ public class MainApp extends GameApplication {
     protected void initGame() {
         getGameWorld().addEntityFactory(new NNNFactory());
         maze = new Maze(20, 20);
+        pathfinding  = new MazePathfinding(maze);
         List<MazeCell> mazeCells = maze.getCells();
         for (MazeCell mazeCell : mazeCells) {
             int x = mazeCell.getX();
@@ -95,9 +103,9 @@ public class MainApp extends GameApplication {
             boolean leftWall = mazeCell.hasLeftWall();
             int maceCellWidth = FXGL.geti("maceCellWidth");
 
-            Rectangle rect = new Rectangle(maceCellWidth, maceCellWidth, Color.GREY);
+            Rectangle rect = new Rectangle(maceCellWidth - (leftWall ? 1 : 0), maceCellWidth - (topWall ? 1 : 0), Color.GREY);
             FXGL.entityBuilder()
-                    .at((x * maceCellWidth) + (topWall ? 2 : 0), (y * maceCellWidth) + (leftWall ? 2 : 0))
+                    .at((x * maceCellWidth) + (leftWall ? 1 : 0), (y * maceCellWidth) + (topWall ? 1 : 0))
                     .view(rect)
                     .with(new EffectComponent())
                     .buildAndAttach();
@@ -150,20 +158,20 @@ public class MainApp extends GameApplication {
             }
             else if (event.getButton() == MouseButton.PRIMARY) {
                 int maceCellWidth = FXGL.geti("maceCellWidth");
-                int x = (int) FXGL.getInput().getMouseXWorld() - (int) FXGL.getInput().getMouseXWorld() % maceCellWidth;
-                int y = (int) FXGL.getInput().getMouseYWorld() - (int) FXGL.getInput().getMouseYWorld() % maceCellWidth;
-                if (game.getEntity(x,y, EntityType.TOWER) != null) return;
-                if (DefenseTowerSimple.cost <= game.getIron()) {
-                    TowerData towerData = getAssetLoader().loadJSON("towers/tower.json" , TowerData.class).orElse(null);
-                    spawn(
-                            "Tower",
-                            new SpawnData()
-                                    .put("towerData", towerData)
-                                    .put("position", new Point(x, y))
-                    );
-                    game.removeIron(DefenseTowerSimple.cost);
-                    textPixels.setText("Iron: " + game.getIron());
-                }
+                Point2D pos = new Point2D(FXGL.getInput().getMouseXWorld() / maceCellWidth, FXGL.getInput().getMouseYWorld() / maceCellWidth);
+                Point2D pos2 = new Point2D((float) enemy.getGameEntity().getPosition().getX() / maceCellWidth, enemy.getGameEntity().getPosition().getY() / maceCellWidth);
+                List<AStarMazeCell> path = pathfinding.findPath((int)pos2.getX(), (int)pos2.getY(), (int)pos.getX(), (int)pos.getY());
+                //List<AStarMazeCell> neighbors = pathfinding.getNeighbors(new AStarMazeCell(new MazeCell((int)pos.getX(), (int)pos.getY())));
+                //for (AStarMazeCell cell : path) {
+                    // enemy.setDestination(game.getPosFromPoint(cell.getX(), cell.getY()));
+                //}
+
+                //if (DefenseTowerSimple.cost <= game.getIron()) {
+                //    DefenseTowerSimple tower = new DefenseTowerSimple(new Point(x, y));
+                //    game.addEntity(tower);
+                //    game.removeIron(DefenseTowerSimple.cost);
+                //    textPixels.setText("Iron: " + game.getIron());
+                //}
             }
         });
     }
