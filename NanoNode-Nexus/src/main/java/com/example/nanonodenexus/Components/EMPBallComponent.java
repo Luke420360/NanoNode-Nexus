@@ -7,14 +7,23 @@ import com.almasb.fxgl.entity.component.Component;
 import com.example.nanonodenexus.data.EMPBallData;
 import javafx.geometry.Point2D;
 
+import static com.almasb.fxgl.dsl.FXGL.newLocalTimer;
+
 public class EMPBallComponent extends Component {
-    private Entity tower;
+    private Point2D initPoint;
     private Entity target;
     private double speed  = 20;
     private int damage = 20;
 
-    public EMPBallComponent(Entity tower, Entity target) {
+    public EMPBallComponent(Point2D initPoint, Entity target) {
         this.target = target;
+        this.initPoint = initPoint;
+    }
+
+    @Override
+    public void onAdded() {
+        entity.setPosition(initPoint);
+
     }
 
     @Override

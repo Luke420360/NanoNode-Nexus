@@ -20,17 +20,17 @@ java:S6201?"LReplace this instanceof check and cast with 'instanceof EnemyBase 
 B
 java:S3457o"%String contains no format specifiers.(¼®›8êÙˆİ1
 G	java:S106o"+Replace this use of System.out by a logger.(¼®›8êÙˆİ1
-p
-java:S3776‡"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ªÉ°Î8ñÃ®İ1
 f
-java:S1128"DRemove this unused import 'com.almasb.fxgl.animation.Interpolators'.(±‰İ¾şÿÿÿÿ8öÙˆİ1
+java:S1128"DRemove this unused import 'com.almasb.fxgl.animation.Interpolators'.(±‰İ¾şÿÿÿÿ8¢²²¢Ş1
+p
+java:S1128"NRemove this unused import 'com.almasb.fxgl.dsl.components.HealthIntComponent'.(ÒÁÙ„úÿÿÿÿ8£²²¢Ş1
 W
-java:S1128";Remove this unused import 'javafx.application.Application'.(í™şj8öÙˆİ1
+java:S1128";Remove this unused import 'javafx.application.Application'.(í™şj8£²²¢Ş1
 V
-java:S1128"4Remove this unused import 'javafx.geometry.Point2D'.(¦¨–íûÿÿÿÿ8öÙˆİ1
+java:S1128"4Remove this unused import 'javafx.geometry.Point2D'.(¦¨–íûÿÿÿÿ8£²²¢Ş1
 Q
-java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8öÙˆİ1
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8£²²¢Ş1
 N
-java:S1128"1Remove this unused import 'javafx.util.Duration'.(ç½®§8öÙˆİ1
+java:S1128"1Remove this unused import 'javafx.util.Duration'.(ç½®§8£²²¢Ş1
 R
-java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8öÙˆİ1
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8£²²¢Ş1

@@ -136,14 +136,16 @@ public class MainApp extends GameApplication {
 
         FXGL.getInput().addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
-                double x = FXGL.getInput().getMouseXWorld();
-                double y = FXGL.getInput().getMouseYWorld();
-                com.almasb.fxgl.entity.Entity clickedEntity = game.getEntity((int) x, (int) y, EntityType.ENEMY);
-                if (clickedEntity != null) {
-                    var hp = clickedEntity.getComponent(HealthIntComponent.class);
-                    hp.damage(50);
-                    if(hp.isZero()) clickedEntity.removeFromWorld();
-                }
+                int x = (int)  FXGL.getInput().getMouseXWorld();
+                int y = (int)  FXGL.getInput().getMouseYWorld();
+
+                EnemyData enemyData = getAssetLoader().loadJSON("enemies/enemy.json" , EnemyData.class).orElse(null);
+                spawn(
+                        "Enemy",
+                        new SpawnData()
+                                .put("enemyData", enemyData)
+                                .put("position", new Point(x, y))
+                );
 
             }
             else if (event.getButton() == MouseButton.PRIMARY) {

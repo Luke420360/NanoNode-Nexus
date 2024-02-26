@@ -17,6 +17,7 @@ public class DefenseTowerSimple extends DefenseTower{
     private LocalTimer shootTimer = newLocalTimer();
     public static int cost = 200;
     private Point2D position;
+    private Duration shootInterval = Duration.seconds(2);
 
     protected DefenseTowerSimple(TowerData data, Point position) {
         super(position, data.hp(),  new Point((int) (FXGL.geti("maceCellWidth") / 1.5), (int) (FXGL.geti("maceCellWidth") / 1.5)),EntityType.TOWER);
@@ -33,22 +34,23 @@ public class DefenseTowerSimple extends DefenseTower{
 
     @Override
     public void onUpdate(double tpf) {
-        if (shootTimer.elapsed(Duration.seconds(1.5))) {
-            if (entity != null) {
+        if (entity != null) {
+            if (shootTimer.elapsed(shootInterval)) {
                 getGameWorld().getClosestEntity(entity, e -> e.isType(EntityType.ENEMY))
                         .ifPresent(nearestEnemy -> {
                             shoot(nearestEnemy);
                         });
+                shootTimer.capture(); // Erfassen Sie die Zeit, wenn ein Schuss abgefeuert wurde
             }
-
         }
     }
 
     public void shoot(Entity enemy) {
         EMPBallData empBallData = getAssetLoader().loadJSON("empBalls/empBall.json" , EMPBallData.class).orElse(null);
-       spawn(
+        spawn(
                 "EmpBall",
                 new SpawnData()
+                        .put("initPoint", position)
                         .put("empBallData", empBallData)
                         .put("target",  enemy)
         );

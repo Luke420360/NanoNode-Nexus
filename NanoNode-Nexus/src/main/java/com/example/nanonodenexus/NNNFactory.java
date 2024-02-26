@@ -11,6 +11,7 @@ import com.almasb.fxgl.entity.components.TimeComponent;
 import com.example.nanonodenexus.Components.EMPBallComponent;
 import com.example.nanonodenexus.Components.HealthbarComponent;
 import com.example.nanonodenexus.data.*;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -49,12 +50,12 @@ public class NNNFactory implements EntityFactory {
     @Spawns("EmpBall")
     public Entity spawnEMPBall(SpawnData data) {
         EMPBallData empBallData = data.get("empBallData");
-        String imageName = data.get("imageName");
+        String imageName = empBallData.imageName();
 
         Node view = texture(imageName);
         view.setRotate(90);
 
-        Entity tower = data.get("tower");
+        Point2D initPoint = data.get("initPoint");
         Entity target = data.get("target");
 
         return entityBuilder(data)
@@ -63,7 +64,7 @@ public class NNNFactory implements EntityFactory {
                 .collidable()
                 .with(new TimeComponent())
                 .with(new HealthIntComponent(empBallData.hp()))
-                .with(new EMPBallComponent(tower, target))
+                .with(new EMPBallComponent(initPoint, target))
                 .build();
     }
 
