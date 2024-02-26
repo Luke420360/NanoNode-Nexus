@@ -1,6 +1,11 @@
 package com.example.nanonodenexus;
 
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.dsl.components.EffectComponent;
 import com.almasb.fxgl.pathfinding.maze.Maze;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 import java.util.*;
 
 public class MazePathfinding {
@@ -15,30 +20,60 @@ public class MazePathfinding {
     }
 
     public List<AStarMazeCell> findPath(int x1, int y1, int x2, int y2) {
-        Queue<AStarMazeCell> openSet = new LinkedList<>();
+        //Queue<AStarMazeCell> openSet = new LinkedList<>();
+        Comparator<AStarMazeCell> comparator = Comparator.comparingInt(c -> c.getFCost());
+        PriorityQueue<AStarMazeCell> openSet = new PriorityQueue<>(comparator);
         Set<AStarMazeCell> closedSet = new HashSet<>();
         Map<AStarMazeCell, AStarMazeCell> cameFrom = new HashMap<>();
 
         AStarMazeCell start = new AStarMazeCell(maze.get(x1, y1));
         AStarMazeCell target = new AStarMazeCell(maze.get(x2, y2));
 
+        start.setGCost(0);
+        start.setHCost(heuristic(start, target));
+
         openSet.add(start);
+        int maceCellWidth = FXGL.geti("maceCellWidth");
 
-        while (!openSet.isEmpty() && openSet.size() < width * height) {
+        while (!openSet.isEmpty() && openSet.size() < width * height * 100) { //
             AStarMazeCell current = openSet.poll();
-
+            System.out.printf("openSet.size(): " + openSet.size());
             if (current.getX() == target.getX() && current.getY() == target.getY()) {
                 return reconstructPath(cameFrom, current);
             }
 
             closedSet.add(current);
 
+            Rectangle rect = new Rectangle(3, 3, Color.GREEN);
+            FXGL.entityBuilder()
+                    .at((current.getX()+.5) * maceCellWidth, (current.getY()+.5) * maceCellWidth)
+                    .view(rect)
+                    .with(new EffectComponent())
+                    .buildAndAttach();
+
             for (AStarMazeCell neighbor : getNeighbors(current)) {
                 if (closedSet.contains(neighbor)) continue;
 
+                int tentativeGScore = current.getGCost() + 1; // Assuming each step costs 1
+
+                boolean isNewPath = false;
                 if (!openSet.contains(neighbor)) {
+                    neighbor.setHCost(heuristic(neighbor, target));
+                    isNewPath = true;
+                } else if (tentativeGScore < neighbor.getGCost()) {
+                    isNewPath = true;
+                }
+
+                if (isNewPath) {
                     cameFrom.put(neighbor, current);
-                    openSet.add(neighbor);
+                    neighbor.setGCost(tentativeGScore);
+                    if (!openSet.contains(neighbor)) {
+                        openSet.add(neighbor);
+                    } else {
+                        // Update the priority queue, remove and re-add the neighbor to update its position in the queue
+                        openSet.remove(neighbor);
+                        openSet.add(neighbor);
+                    }
                 }
             }
         }
@@ -52,8 +87,8 @@ public class MazePathfinding {
         while (current != null) {
             path.add(current);
             current = cameFrom.get(current);
-            System.out.println("reconstructing path");
         }
+        System.out.printf("path length: " + path.size());
         Collections.reverse(path);
         return path;
     }
@@ -87,5 +122,9 @@ public class MazePathfinding {
         //}
 
         return neighbors;
+    }
+
+    private int heuristic(AStarMazeCell cell, AStarMazeCell target) {
+        return Math.abs(cell.getX() - target.getX()) + Math.abs(cell.getY() - target.getY());
     }
 }

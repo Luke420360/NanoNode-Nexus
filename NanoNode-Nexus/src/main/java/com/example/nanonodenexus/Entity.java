@@ -44,6 +44,9 @@ public abstract class Entity extends Component {
     public Point getPosition() {
         return this.position;
     }
+    public void setEntity(com.almasb.fxgl.entity.Entity entity) {
+        this.gameEntity = entity;
+    }
 
     public int getMaxHp() {
         return this.maxHp;

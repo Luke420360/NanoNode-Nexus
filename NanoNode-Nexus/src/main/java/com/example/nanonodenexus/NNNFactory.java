@@ -1,5 +1,6 @@
 package com.example.nanonodenexus;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.AutoRotationComponent;
 import com.almasb.fxgl.dsl.components.EffectComponent;
 import com.almasb.fxgl.dsl.components.HealthIntComponent;
@@ -21,16 +22,21 @@ public class NNNFactory implements EntityFactory {
     @Spawns("Enemy")
     public Entity spawnEnemy(SpawnData data) {
         EnemyData enemyData = data.get("enemyData");
-
-        return entityBuilder(data)
+        Enemy enemy = new Enemy(enemyData);
+        Game game = FXGL.geto("gameInstance");
+        game.addEntity(enemy);
+        Entity entity = entityBuilder(data)
                 .type(EntityType.ENEMY)
                 .viewWithBBox("enemies/" + enemyData.imageName())
                 .collidable()
                 .with(new TimeComponent())
                 .with(new HealthIntComponent(enemyData.hp()))
-                .with(new Enemy(enemyData))
+                .with(enemy)
                 .with(new HealthbarComponent())
                 .build();
+        enemy.addEntity(entity);
+
+        return entity;
     }
 
     @Spawns("Player")

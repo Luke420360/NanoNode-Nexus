@@ -27,10 +27,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Objects;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -167,13 +169,26 @@ public class MainApp extends GameApplication {
             }
             else if (event.getButton() == MouseButton.PRIMARY) {
                 int maceCellWidth = FXGL.geti("maceCellWidth");
+
+                //List<com.almasb.fxgl.entity.Entity> allEnemies = getGameWorld().getEntitiesByType(EntityType.ENEMY);
+                List<Entity> allEnemies = game.getAllEntity();
+                Enemy enemy = null;
+                for (Entity _enemy : allEnemies) {
+                    if (_enemy instanceof Enemy) {
+                        enemy = (Enemy) allEnemies.getFirst();
+                        break;
+                    }
+                }
+                if (Objects.isNull(enemy)) { return; }
+                System.out.printf("enemy found");
+
                 Point2D pos = new Point2D(FXGL.getInput().getMouseXWorld() / maceCellWidth, FXGL.getInput().getMouseYWorld() / maceCellWidth);
                 Point2D pos2 = new Point2D((float) enemy.getGameEntity().getPosition().getX() / maceCellWidth, enemy.getGameEntity().getPosition().getY() / maceCellWidth);
                 List<AStarMazeCell> path = pathfinding.findPath((int)pos2.getX(), (int)pos2.getY(), (int)pos.getX(), (int)pos.getY());
                 //List<AStarMazeCell> neighbors = pathfinding.getNeighbors(new AStarMazeCell(new MazeCell((int)pos.getX(), (int)pos.getY())));
-                //for (AStarMazeCell cell : path) {
-                    // enemy.setDestination(game.getPosFromPoint(cell.getX(), cell.getY()));
-                //}
+                for (AStarMazeCell cell : path) {
+                    enemy.setDestination(game.getPosFromPoint(cell.getX(), cell.getY()));
+                }
 
                 //if (DefenseTowerSimple.cost <= game.getIron()) {
                 //    DefenseTowerSimple tower = new DefenseTowerSimple(new Point(x, y));

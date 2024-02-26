@@ -1,5 +1,6 @@
 package com.example.nanonodenexus;
 
+import com.almasb.fxgl.dsl.FXGL;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 
@@ -17,6 +18,22 @@ public class Game {
         this.entities = new ArrayList<>();
         this.iron = 1000;
         this.renderer = new Renderer();
+    }
+
+    public Point getPointFromPos(Point2D pos) {
+        int maceCellWidth = FXGL.geti("maceCellWidth");
+        return new  Point(
+                (int) Math.floor(pos.getX()) * maceCellWidth,
+                (int) Math.floor(pos.getY()) * maceCellWidth
+        );
+    }
+
+    public Point2D getPosFromPoint(int x, int y) {
+        int maceCellWidth = FXGL.geti("maceCellWidth");
+        return new Point2D(
+                (x) * maceCellWidth,
+                (y) *  maceCellWidth
+        );
     }
 
     public com.almasb.fxgl.entity.Entity getEntity(int x, int y, EntityType et) {
