@@ -36,11 +36,11 @@ public class DefenseTowerSimple extends DefenseTower{
     public void onUpdate(double tpf) {
         if (entity != null) {
             if (shootTimer.elapsed(shootInterval)) {
-                getGameWorld().getClosestEntity(entity, e -> e.isType(EntityType.ENEMY))
+                getGameWorld().getClosestEntity(entity, e -> e.isType(EntityType.ENEMY) || e.isType(EntityType.ENEMY_BASE))
                         .ifPresent(nearestEnemy -> {
                             shoot(nearestEnemy);
                         });
-                shootTimer.capture(); // Erfassen Sie die Zeit, wenn ein Schuss abgefeuert wurde
+                shootTimer.capture();
             }
         }
     }
