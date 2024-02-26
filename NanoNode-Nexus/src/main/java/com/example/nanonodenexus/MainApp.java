@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -120,16 +121,24 @@ public class MainApp extends GameApplication {
             return;
         }
 
-        spawn(
-                "Player",
-                new SpawnData()
-                        .put("playerData", playerData)
+        // EnemyBase
+        Random random = new Random();
+        Point enemyBaseDim = new Point(
+        (random.nextInt(11) + 10) * 48,
+       (random.nextInt(11) + 10) * 48
         );
 
         spawn(
                 "EnemyBase",
                 new SpawnData()
                         .put("enemyBaseData", enemyBaseData)
+                        .put("position", enemyBaseDim)
+        );
+
+        spawn(
+                "Player",
+                new SpawnData()
+                        .put("playerData", playerData)
         );
 
         spawn(

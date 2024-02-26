@@ -71,6 +71,7 @@ public class NNNFactory implements EntityFactory {
     @Spawns("EnemyBase")
     public Entity spawnEnemyBase(SpawnData data){
         EnemyBaseData enemyBaseData = data.get("enemyBaseData");
+        Point position = data.get("position");
 
         return entityBuilder(data)
                 .type(EntityType.ENEMY_BASE)
@@ -78,7 +79,7 @@ public class NNNFactory implements EntityFactory {
                 .collidable()
                 .with(new TimeComponent())
                 .with(new HealthIntComponent(enemyBaseData.hp()))
-                .with(new EnemyBase(enemyBaseData))
+                .with(new EnemyBase(enemyBaseData, position))
                 .with(new HealthbarComponent())
                 .build();
     }

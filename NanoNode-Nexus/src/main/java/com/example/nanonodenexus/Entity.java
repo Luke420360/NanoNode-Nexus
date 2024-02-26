@@ -65,19 +65,6 @@ public abstract class Entity extends Component {
 
     public void setImage(String image) {
         this.image = image;
-//        Rectangle rct = new Rectangle(dimensions.x(),dimensions.y());
-//        Image img = new Image("assets/textures/" + image);
-//        rct.setFill(new ImagePattern(img));
-
-//        this.gameEntity = FXGL.entityBuilder()
-//                .type(entityType)
-//                .at(this.position.x(), this.position.y())
-//                .view(rct)
-//                .with(new EffectComponent())
-//                .with(new HealthIntComponent(this.hp))
-//                .with(new HealthbarComponent())
-//                .collidable()
-//                .buildAndAttach();
     }
 
     public int getHp() {
