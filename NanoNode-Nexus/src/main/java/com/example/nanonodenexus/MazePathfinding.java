@@ -55,22 +55,22 @@ public class MazePathfinding {
                 if (closedSet.contains(neighbor)) continue;
 
                 int tentativeGScore = current.getGCost() + 1; // Assuming each step costs 1
-
-                boolean isNewPath = false;
-                if (!openSet.contains(neighbor)) {
-                    neighbor.setHCost(heuristic(neighbor, target));
-                    isNewPath = true;
-                } else if (tentativeGScore < neighbor.getGCost()) {
-                    isNewPath = true;
+                boolean contains = false;
+                for (AStarMazeCell cell : openSet) {
+                    if (cell.getX() == neighbor.getX() && cell.getY() == neighbor.getY()) {
+                        contains = true;
+                        break;
+                    }
                 }
 
-                if (isNewPath) {
+                if (!contains) { // || tentativeGScore < neighbor.getGCost()
+                    // Update the neighbor's scores and parent
                     cameFrom.put(neighbor, current);
                     neighbor.setGCost(tentativeGScore);
-                    if (!openSet.contains(neighbor)) {
+                    if (!contains) {
                         openSet.add(neighbor);
                     } else {
-                        // Update the priority queue, remove and re-add the neighbor to update its position in the queue
+                        // This block may be needed or not depending on how your priority queue handles updates
                         openSet.remove(neighbor);
                         openSet.add(neighbor);
                     }
