@@ -1,32 +1,36 @@
 
 k
-java:S1192>"NDefine a constant instead of duplicating this literal "maceCellWidth" 3 times.(ï¥¸İ8ïëò„Ü1
+java:S1192G"NDefine a constant instead of duplicating this literal "maceCellWidth" 3 times.(ï¥¸İ8’Ùˆİ1
 _
-java:S2184["BCast one of the operands of this addition operation to a "double".(˜šıí8ğëò„Ü1
+java:S2184d"BCast one of the operands of this addition operation to a "double".(˜šıí8–Ùˆİ1
 _
-java:S2184["BCast one of the operands of this addition operation to a "double".(˜šıí8ğëò„Ü1
+java:S2184d"BCast one of the operands of this addition operation to a "double".(˜šıí8–Ùˆİ1
 p
-java:S1450"SRemove the "maze" field and declare it as a local variable in the relevant methods.(üªÒÙ8‰ìò„Ü1
-X	java:S125"<This block of commented-out lines of code should be removed.(ïÕ´“8‹ìò„Ü1
-]	java:S125"<This block of commented-out lines of code should be removed.(î˜‚úÿÿÿÿ8’ìò„Ü1
+java:S1450$"SRemove the "maze" field and declare it as a local variable in the relevant methods.(üªÒÙ8ÍÙˆİ1
+X	java:S125""<This block of commented-out lines of code should be removed.(ïÕ´“8ÏÙˆİ1
+]	java:S125)"<This block of commented-out lines of code should be removed.(î˜‚úÿÿÿÿ8ÚÙˆİ1
 f
-java:S6201,"DReplace this instanceof check and cast with 'instanceof Enemy enemy'(Š¢‚·ÿÿÿÿÿ8”ìò„Ü1
-G
-java:S3457-"%String contains no format specifiers.(éëÁ‹şÿÿÿÿ8”ìò„Ü1
-L	java:S106-"+Replace this use of System.out by a logger.(éëÁ‹şÿÿÿÿ8”ìò„Ü1
+java:S62016"DReplace this instanceof check and cast with 'instanceof Enemy enemy'(Š¢‚·ÿÿÿÿÿ8ÜÙˆİ1
 {
-java:S62010"^Replace this instanceof check and cast with 'instanceof DefenseTowerSimple defensetowersimple'(Ï÷Ôé8”ìò„Ü1
+java:S62019"^Replace this instanceof check and cast with 'instanceof DefenseTowerSimple defensetowersimple'(Ï÷Ôé8İÙˆİ1
 c
-java:S62013"FReplace this instanceof check and cast with 'instanceof Player player'(¡Ôæç8”ìò„Ü1
+java:S6201<"FReplace this instanceof check and cast with 'instanceof Player player'(¡Ôæç8İÙˆİ1
 i
-java:S62016"LReplace this instanceof check and cast with 'instanceof EnemyBase enemybase'(¥äˆ8•ìò„Ü1
-L	java:S106w"+Replace this use of System.out by a logger.(ÊÌŒÿÿÿÿÿ8ìò„Ü1
+java:S6201?"LReplace this instanceof check and cast with 'instanceof EnemyBase enemybase'(¥äˆ8İÙˆİ1
+B
+java:S3457o"%String contains no format specifiers.(¼®›8êÙˆİ1
+G	java:S106o"+Replace this use of System.out by a logger.(¼®›8êÙˆİ1
+p
+java:S3776‡"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ªÉ°Î8ñÃ®İ1
+f
+java:S1128"DRemove this unused import 'com.almasb.fxgl.animation.Interpolators'.(±‰İ¾şÿÿÿÿ8öÙˆİ1
 W
-java:S1128	";Remove this unused import 'javafx.application.Application'.(í™şj8Ÿìò„Ü1
+java:S1128";Remove this unused import 'javafx.application.Application'.(í™şj8öÙˆİ1
 V
-java:S1128
-"4Remove this unused import 'javafx.geometry.Point2D'.(¦¨–íûÿÿÿÿ8Ÿìò„Ü1
+java:S1128"4Remove this unused import 'javafx.geometry.Point2D'.(¦¨–íûÿÿÿÿ8öÙˆİ1
 Q
-java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8Ÿìò„Ü1
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8öÙˆİ1
+N
+java:S1128"1Remove this unused import 'javafx.util.Duration'.(ç½®§8öÙˆİ1
 R
-java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8Ÿìò„Ü1
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8öÙˆİ1

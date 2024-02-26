@@ -8,7 +8,7 @@ public class Base extends Entity{
         return friendly;
     }
 
-    protected Base(Point position, int maxHp, Point dimensions) {
-        super(position, maxHp, dimensions);
+    protected Base(Point position, int maxHp, Point dimensions, EntityType en) {
+        super(position, maxHp, dimensions, en);
     }
 }

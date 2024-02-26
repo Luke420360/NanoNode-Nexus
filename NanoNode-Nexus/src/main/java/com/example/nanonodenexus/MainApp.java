@@ -1,11 +1,18 @@
 package com.example.nanonodenexus;
 
+import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.EffectComponent;
+import com.almasb.fxgl.dsl.components.HealthIntComponent;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.pathfinding.maze.Maze;
 import com.almasb.fxgl.pathfinding.maze.MazeCell;
+import com.example.nanonodenexus.data.EnemyBaseData;
+import com.example.nanonodenexus.data.EnemyData;
+import com.example.nanonodenexus.data.PlayerData;
+import com.example.nanonodenexus.data.TowerData;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
@@ -14,10 +21,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class MainApp extends GameApplication {
 
@@ -42,7 +52,6 @@ public class MainApp extends GameApplication {
         List<Entity> entities = game.getAllEntity();
         for (Entity en : entities) {
             if(en instanceof Enemy) {
-                System.out.printf("Enemy");
                 ((Enemy) en).onUpdate(tpf);
             }
             else if (en instanceof DefenseTowerSimple) {
@@ -76,7 +85,7 @@ public class MainApp extends GameApplication {
 
     @Override
     protected void initGame() {
-
+        getGameWorld().addEntityFactory(new NNNFactory());
         maze = new Maze(20, 20);
         List<MazeCell> mazeCells = maze.getCells();
         for (MazeCell mazeCell : mazeCells) {
@@ -93,12 +102,33 @@ public class MainApp extends GameApplication {
                     .with(new EffectComponent())
                     .buildAndAttach();
         }
-        Player player = new Player(new Point(10, 10));
-        Enemy enemy = new Enemy(new Point(200, 200),250, new Point(40, 40), player);
-        EnemyBase enemyBase = new EnemyBase(new Point(500, 500), 900, new Point(40,40));
-        game.addEntity(enemyBase);
-        game.addEntity(player);
-        game.addEntity(enemy);
+
+        EnemyData enemyData = getAssetLoader().loadJSON("enemies/enemy.json" , EnemyData.class).orElse(null);
+        PlayerData playerData = getAssetLoader().loadJSON("players/player.json" , PlayerData.class).orElse(null);
+        EnemyBaseData enemyBaseData = getAssetLoader().loadJSON("enemyBase/enemyBase.json" , EnemyBaseData.class).orElse(null);
+
+        if(enemyData == null || playerData == null || enemyBaseData == null) {
+            System.out.printf("Couldn't Load assets");
+            return;
+        }
+
+        spawn(
+                "Player",
+                new SpawnData()
+                        .put("playerData", playerData)
+        );
+
+        spawn(
+                "EnemyBase",
+                new SpawnData()
+                        .put("enemyBaseData", enemyBaseData)
+        );
+
+        spawn(
+                "Enemy",
+                new SpawnData()
+                        .put("enemyData", enemyData)
+        );
     }
 
     @Override
@@ -108,19 +138,27 @@ public class MainApp extends GameApplication {
             if (event.getButton() == MouseButton.SECONDARY) {
                 double x = FXGL.getInput().getMouseXWorld();
                 double y = FXGL.getInput().getMouseYWorld();
-                Entity clickedEntity = game.getEntity((int) x, (int) y);
-                if (clickedEntity != null)
-                    clickedEntity.takeDamage(50);
+                com.almasb.fxgl.entity.Entity clickedEntity = game.getEntity((int) x, (int) y, EntityType.ENEMY);
+                if (clickedEntity != null) {
+                    var hp = clickedEntity.getComponent(HealthIntComponent.class);
+                    hp.damage(50);
+                    if(hp.isZero()) clickedEntity.removeFromWorld();
+                }
+
             }
             else if (event.getButton() == MouseButton.PRIMARY) {
                 int maceCellWidth = FXGL.geti("maceCellWidth");
-                int x = (int) FXGL.getInput().getMouseXWorld() - (int) FXGL.getInput().getMouseXWorld() % maceCellWidth + 8;
-                int y = (int) FXGL.getInput().getMouseYWorld() - (int) FXGL.getInput().getMouseYWorld() % maceCellWidth + 8;
-                System.out.println("Primary button clicked at: " + x + ", " + y);
-
+                int x = (int) FXGL.getInput().getMouseXWorld() - (int) FXGL.getInput().getMouseXWorld() % maceCellWidth;
+                int y = (int) FXGL.getInput().getMouseYWorld() - (int) FXGL.getInput().getMouseYWorld() % maceCellWidth;
+                if (game.getEntity(x,y, EntityType.TOWER) != null) return;
                 if (DefenseTowerSimple.cost <= game.getIron()) {
-                    DefenseTowerSimple tower = new DefenseTowerSimple(new Point(x, y));
-                    game.addEntity(tower);
+                    TowerData towerData = getAssetLoader().loadJSON("towers/tower.json" , TowerData.class).orElse(null);
+                    spawn(
+                            "Tower",
+                            new SpawnData()
+                                    .put("towerData", towerData)
+                                    .put("position", new Point(x, y))
+                    );
                     game.removeIron(DefenseTowerSimple.cost);
                     textPixels.setText("Iron: " + game.getIron());
                 }

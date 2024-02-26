@@ -13,10 +13,11 @@ import javafx.scene.shape.Rectangle;
 
 public abstract class Entity extends Component {
 
-    protected Entity(Point position, int maxHP, Point dimensions) {
+    protected Entity(Point position, int maxHP, Point dimensions, EntityType type) {
         this.position = position;
         this.maxHp = maxHP;
         this.dimensions = dimensions;
+        this.entityType = type;
         setHp(maxHP);
     }
 
@@ -30,6 +31,7 @@ public abstract class Entity extends Component {
     private Point position;
     private Point cords;
     protected Point dimensions;
+    protected  EntityType entityType;
 
     public void setPosition(Point position) {
         this.position = position;
@@ -63,18 +65,19 @@ public abstract class Entity extends Component {
 
     public void setImage(String image) {
         this.image = image;
-        Rectangle rct = new Rectangle(dimensions.x(),dimensions.y());
-        Image img = new Image("assets/textures/" + image);
-        rct.setFill(new ImagePattern(img));
+//        Rectangle rct = new Rectangle(dimensions.x(),dimensions.y());
+//        Image img = new Image("assets/textures/" + image);
+//        rct.setFill(new ImagePattern(img));
 
-        this.gameEntity = FXGL.entityBuilder()
-                .at(this.position.x(), this.position.y())
-                .view(rct)
-                .with(new EffectComponent())
-                .with(new HealthIntComponent(this.hp))
-                .with(new HealthbarComponent())
-                .collidable()
-                .buildAndAttach();
+//        this.gameEntity = FXGL.entityBuilder()
+//                .type(entityType)
+//                .at(this.position.x(), this.position.y())
+//                .view(rct)
+//                .with(new EffectComponent())
+//                .with(new HealthIntComponent(this.hp))
+//                .with(new HealthbarComponent())
+//                .collidable()
+//                .buildAndAttach();
     }
 
     public int getHp() {

@@ -1,19 +1,18 @@
 package com.example.nanonodenexus;
 
 import com.almasb.fxgl.entity.component.Component;
+import com.example.nanonodenexus.data.EnemyData;
 import javafx.geometry.Point2D;
 
 public class Enemy extends Entity {
 
     private int damage;
     private int droppedIron;
-    private Entity player; // Reference to the player entity
     private double speed = 20;
 
-    protected Enemy(Point position, int maxHP, Point dimensions, Player player) {
-        super(position, maxHP, dimensions);
-        this.setImage("Enemy.png");
-        this.player = player;
+    protected Enemy(EnemyData data) {
+        super(new Point(250,250), data.hp(), new Point(48,48), EntityType.ENEMY);
+        this.setImage("enemy.png");
     }
 
     public int getDamage() {
@@ -33,17 +32,17 @@ public class Enemy extends Entity {
     }
 
     @Override
+    public void onAdded() {
+        entity.setPosition(200, 200);
+    }
+
+    @Override
     public void onUpdate(double tpf) {
         super.onUpdate(tpf);
-        // Get the position component of the enemy and player
-        Point2D enemyPosition = this.getGameEntity().getPosition();
-        Point2D playerPosition = player.getGameEntity().getPosition();
-
-        // Calculate the direction vector from the enemy to the player
-        Point2D direction = new Point2D(playerPosition.getX() - enemyPosition.getX(), playerPosition.getY() - enemyPosition.getY()).normalize();
-
-        // Move the enemy towards the player
-        this.getGameEntity().translate(direction.multiply(tpf * speed)); // speed is the movement speed of the enemy
+//        Point2D enemyPosition = this.getGameEntity().getPosition();
+//        Point2D playerPosition = player.getGameEntity().getPosition();
+//        Point2D direction = new Point2D(playerPosition.getX() - enemyPosition.getX(), playerPosition.getY() - enemyPosition.getY()).normalize();
+//        this.getGameEntity().translate(direction.multiply(tpf * speed)); // speed is the movement speed of the enemy
     }
 
 }

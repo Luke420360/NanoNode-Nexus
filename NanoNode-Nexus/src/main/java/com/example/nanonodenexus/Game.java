@@ -1,7 +1,13 @@
 package com.example.nanonodenexus;
 
+import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.shape.Rectangle;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 
 public class Game {
 
@@ -14,15 +20,13 @@ public class Game {
         this.renderer = new Renderer();
     }
 
-    public Entity getEntity(int x, int y) {
-        for (Entity entity : entities) {
-            int x2 = entity.getPosition().x();
-            int y2 = entity.getPosition().y();
-            int dimX = entity.getDimensions().x();
-            int dimY = entity.getDimensions().y();
-            if ((x2 <= x && x <= x2+dimX) && (y2 <= y && y <= y2+dimY)) {
-                return entity;
-            }
+    public com.almasb.fxgl.entity.Entity getEntity(int x, int y, EntityType et) {
+        int cellDimension = 48;
+        Point2D cell = new Point2D(Math.floorDiv(x ,cellDimension) + 1 , Math.floorDiv(y, cellDimension) + 1);
+        Rectangle2D rect = new Rectangle2D(cell.getX() * 48,cell.getY() *48,48,48);
+         var foundEntity =  getGameWorld().getEntitiesInRange(rect);
+        for (com.almasb.fxgl.entity.Entity entity : foundEntity) {
+            if(entity.isType(et)) return entity;
         }
         return null;
     }

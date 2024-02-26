@@ -1,20 +1,21 @@
 package com.example.nanonodenexus;
 
+import javafx.geometry.Point2D;
+
+import java.util.Objects;
+
 public abstract class DefenseTower extends Entity {
     private int damage;
     private int range;
     
-    protected DefenseTower(Point position, int maxHp, Point dimensions) {
-        super(position, maxHp, dimensions);
+    protected DefenseTower(Point position, int maxHp, Point dimensions, EntityType en) {
+        super(position, maxHp, dimensions, en);
     }
 
     /**
      * Shoots the given entity, causing damage.
-     * @param entity The entity to shoot.
+     * @param entity The entity to shoot.y
      */
-    protected void shoot(Entity entity) {
-        entity.takeDamage(damage);
-    }
 
     public int getRange() {
         return range;
