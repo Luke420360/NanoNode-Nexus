@@ -20,7 +20,7 @@ public class DefenseTowerSimple extends DefenseTower{
     private Duration shootInterval = Duration.seconds(2);
 
     protected DefenseTowerSimple(TowerData data, Point position) {
-        super(position, data.hp(),  new Point((int) (FXGL.geti("maceCellWidth") / 1.5), (int) (FXGL.geti("maceCellWidth") / 1.5)),EntityType.TOWER);
+        super(position, data.hp(),  position, EntityType.TOWER);
         this.position = new Point2D(position.x(), position.y());
         this.setImage("tower.png");
     }

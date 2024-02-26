@@ -126,8 +126,8 @@ public class MainApp extends GameApplication {
         // EnemyBase
         Random random = new Random();
         Point enemyBaseDim = new Point(
-        (random.nextInt(11) + 10) * 48,
-       (random.nextInt(11) + 10) * 48
+    (random.nextInt(10) + 10) * 48,
+    (random.nextInt(10) + 10) * 48
         );
 
         spawn(
@@ -168,34 +168,16 @@ public class MainApp extends GameApplication {
 
             }
             else if (event.getButton() == MouseButton.PRIMARY) {
-                int maceCellWidth = FXGL.geti("maceCellWidth");
-
-                //List<com.almasb.fxgl.entity.Entity> allEnemies = getGameWorld().getEntitiesByType(EntityType.ENEMY);
-                List<Entity> allEnemies = game.getAllEntity();
-                Enemy enemy = null;
-                for (Entity _enemy : allEnemies) {
-                    if (_enemy instanceof Enemy) {
-                        enemy = (Enemy) allEnemies.getFirst();
-                        break;
-                    }
-                }
-                if (Objects.isNull(enemy)) { return; }
-                System.out.printf("enemy found");
-
-                Point2D pos = new Point2D(FXGL.getInput().getMouseXWorld() / maceCellWidth, FXGL.getInput().getMouseYWorld() / maceCellWidth);
-                Point2D pos2 = new Point2D((float) enemy.getGameEntity().getPosition().getX() / maceCellWidth, enemy.getGameEntity().getPosition().getY() / maceCellWidth);
-                List<AStarMazeCell> path = pathfinding.findPath((int)pos2.getX(), (int)pos2.getY(), (int)pos.getX(), (int)pos.getY());
-                //List<AStarMazeCell> neighbors = pathfinding.getNeighbors(new AStarMazeCell(new MazeCell((int)pos.getX(), (int)pos.getY())));
-                for (AStarMazeCell cell : path) {
-                    enemy.setDestination(game.getPosFromPoint(cell.getX(), cell.getY()));
-                }
-
-                //if (DefenseTowerSimple.cost <= game.getIron()) {
-                //    DefenseTowerSimple tower = new DefenseTowerSimple(new Point(x, y));
-                //    game.addEntity(tower);
-                //    game.removeIron(DefenseTowerSimple.cost);
-                //    textPixels.setText("Iron: " + game.getIron());
-                //}
+                int x = (int)  FXGL.getInput().getMouseXWorld();
+                int y = (int)  FXGL.getInput().getMouseYWorld();
+                TowerData towerData = getAssetLoader().loadJSON("towers/tower.json" , TowerData.class).orElse(null);
+                Point initPoint = game.getPointFromPos( new Point2D(x,y));
+                spawn(
+                        "Tower",
+                        new SpawnData()
+                                .put("towerData", towerData)
+                                .put("position", new Point(initPoint.x() * 48, initPoint.y() *48))
+                );
             }
         });
     }

@@ -23,8 +23,8 @@ public class Game {
     public Point getPointFromPos(Point2D pos) {
         int maceCellWidth = FXGL.geti("maceCellWidth");
         return new  Point(
-                (int) Math.floor(pos.getX()) * maceCellWidth,
-                (int) Math.floor(pos.getY()) * maceCellWidth
+                (int) Math.floor(pos.getX()) / maceCellWidth,
+                (int) Math.floor(pos.getY()) / maceCellWidth
         );
     }
 

@@ -95,6 +95,7 @@ public class NNNFactory implements EntityFactory {
         TowerData towerData = data.get("towerData");
         Point position = data.get("position");
         if(position == null) return null;
+        System.out.println("planted");
         return entityBuilder(data)
                 .type(EntityType.TOWER)
                 .viewWithBBox(towerData.imageName())
