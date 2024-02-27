@@ -1,5 +1,7 @@
 package com.example.nanonodenexus;
 
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.almasb.fxgl.entity.component.Component;
 import com.example.nanonodenexus.data.EnemyData;
 import javafx.geometry.Point2D;
@@ -65,6 +67,15 @@ public class Enemy extends Entity {
                 myPos.getX() + 5 > this.destination.getFirst().getX() &&
                 myPos.getY() + 5 > this.destination.getFirst().getY()
         ) {
+            Game game = FXGL.geto("gameInstance");
+            if (this.destination.size() > 1) {
+                Point2D nextDest = this.destination.get(1);
+                com.almasb.fxgl.entity.Entity tower = game.getEntity((int)nextDest.getX(), (int)nextDest.getY(), EntityType.TOWER);
+                if (!Objects.isNull(tower)) {
+                    tower.getComponent(HealthIntComponent.class).damage(1);
+                    return;
+                }
+            }
             this.destination.removeFirst();
             return;
         }

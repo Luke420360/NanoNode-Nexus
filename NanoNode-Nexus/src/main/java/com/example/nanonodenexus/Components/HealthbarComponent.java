@@ -1,7 +1,9 @@
 package com.example.nanonodenexus.Components;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.almasb.fxgl.dsl.components.view.ChildViewComponent;
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.ui.ProgressBar;
 import javafx.scene.paint.Color;
 
@@ -27,5 +29,12 @@ public class HealthbarComponent extends ChildViewComponent {
         super.onAdded();
         hpBar.maxValueProperty().bind(hp.maxValueProperty());
         hpBar.currentValueProperty().bind(hp.valueProperty());
+    }
+
+    public void onUpdate(double tpf) {
+        if (hpBar.currentValueProperty().intValue() <= 0) {
+            Entity entityToRemove = entity;
+            FXGL.getGameWorld().removeEntity(entity);
+        }
     }
 }

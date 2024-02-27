@@ -47,10 +47,5 @@ public class EMPBallComponent extends Component {
         var hp = target.getComponent(HealthIntComponent.class);
 
         hp.damage(damage);
-
-        if (hp.isZero()) {
-            FXGL.getGameWorld().removeEntity(target);
-            target.removeFromWorld();
-        }
     }
 }

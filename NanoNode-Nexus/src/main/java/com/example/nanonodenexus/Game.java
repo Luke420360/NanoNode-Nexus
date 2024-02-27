@@ -13,11 +13,9 @@ public class Game {
 
     private List<Entity> entities;
     private int iron;
-    private final Renderer renderer;
-    public Game(Renderer renderer) {
+    public Game() {
         this.entities = new ArrayList<>();
         this.iron = 1000;
-        this.renderer = new Renderer();
     }
 
     public Point getPointFromPos(Point2D pos) {

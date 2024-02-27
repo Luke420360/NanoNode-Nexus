@@ -39,7 +39,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 public class MainApp extends GameApplication {
 
     // private List<Entity> gameObjects;
-    private Game game = new Game(new Renderer());
+    private Game game = new Game();
     private Maze maze;
     private Enemy enemy;
     Text textPixels = new Text("Iron: -");
@@ -157,14 +157,14 @@ public class MainApp extends GameApplication {
             if (event.getButton() == MouseButton.SECONDARY) {
                 int x = (int)  FXGL.getInput().getMouseXWorld();
                 int y = (int)  FXGL.getInput().getMouseYWorld();
-
-                EnemyData enemyData = getAssetLoader().loadJSON("enemies/enemy.json" , EnemyData.class).orElse(null);
-                spawn(
-                        "Enemy",
-                        new SpawnData()
-                                .put("enemyData", enemyData)
-                                .put("position", new Point(x, y))
-                );
+                addTower(x, y);
+                //EnemyData enemyData = getAssetLoader().loadJSON("enemies/enemy.json" , EnemyData.class).orElse(null);
+                //spawn(
+                //        "Enemy",
+                //        new SpawnData()
+                //                .put("enemyData", enemyData)
+                //                .put("position", new Point(x, y))
+                //);
 
             }
             else if (event.getButton() == MouseButton.PRIMARY) {

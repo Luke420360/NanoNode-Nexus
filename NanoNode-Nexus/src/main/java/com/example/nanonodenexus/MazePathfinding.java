@@ -116,11 +116,6 @@ public class MazePathfinding {
             neighbors.add(new AStarMazeCell(maze.get(x - 1, y)));
         }
 
-        //for (AStarMazeCell _cell : neighbors) {
-        //    System.out.println("target: " + cell.getMazeCell().toString());
-        //    System.out.println("neighbors: " + _cell.getMazeCell().toString());
-        //}
-
         return neighbors;
     }
 
