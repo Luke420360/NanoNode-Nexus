@@ -15,9 +15,9 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 public class DefenseTowerSimple extends DefenseTower{
 
     private LocalTimer shootTimer = newLocalTimer();
+    private Duration shootInterval = Duration.seconds(2);
     public static int cost = 200;
     private Point2D position;
-    private Duration shootInterval = Duration.seconds(2);
 
     protected DefenseTowerSimple(TowerData data, Point position) {
         super(position, data.hp(),  position, EntityType.TOWER);

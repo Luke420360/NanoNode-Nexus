@@ -48,7 +48,22 @@ public class Enemy extends Entity {
 
     @Override
     public void onAdded() {
-        entity.setPosition(200, 200);
+
+        Point enemyBasePos = FXGL.geto("enemyBasePos");
+        Point playerPos = FXGL.geto("playerPos");
+        MazePathfinding pathFinding = FXGL.geto("pathFinding");
+        int maceCellWidth = FXGL.geti("maceCellWidth");
+        Game game = FXGL.geto("gameInstance");
+
+        entity.setPosition(enemyBasePos.x(), enemyBasePos.y());
+        List<AStarMazeCell> path = pathFinding.findPath(
+                enemyBasePos.x() / maceCellWidth,
+                enemyBasePos.y() / maceCellWidth,
+                playerPos.x(),
+                playerPos.y());
+        for (AStarMazeCell cell : path) {
+            this.setDestination(game.getPosFromPoint(cell.getX(), cell.getY()));
+        }
     }
 
     @Override

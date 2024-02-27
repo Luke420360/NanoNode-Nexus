@@ -1,34 +1,23 @@
 package com.example.nanonodenexus;
 
-import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.EffectComponent;
 import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.pathfinding.Pathfinder;
-import com.almasb.fxgl.pathfinding.astar.AStarCell;
 import com.almasb.fxgl.pathfinding.astar.AStarGrid;
-import com.almasb.fxgl.pathfinding.astar.AStarPathfinder;
 import com.almasb.fxgl.pathfinding.maze.Maze;
 import com.almasb.fxgl.pathfinding.maze.MazeCell;
 import com.example.nanonodenexus.data.EnemyBaseData;
 import com.example.nanonodenexus.data.EnemyData;
 import com.example.nanonodenexus.data.PlayerData;
 import com.example.nanonodenexus.data.TowerData;
-import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -78,8 +67,20 @@ public class MainApp extends GameApplication {
 
     @Override
     protected void initGameVars(Map<String, Object> vars) {
+        Random random = new Random();
         vars.put("maceCellWidth", 48);
         vars.put("gameInstance", game);
+        vars.put("enemyBasePos", new Point(
+                (random.nextInt(10) + 10) * 48,
+                (random.nextInt(10) + 10) * 48
+        ));
+        vars.put("playerPos", new Point(
+                0, 0
+        ));
+        maze = new Maze(20, 20);
+        vars.put("maze", maze);
+        pathfinding  = new MazePathfinding(maze);
+        vars.put("pathFinding", pathfinding);
     }
 
     public static void main(String[] args) {
@@ -96,8 +97,7 @@ public class MainApp extends GameApplication {
     @Override
     protected void initGame() {
         getGameWorld().addEntityFactory(new NNNFactory());
-        maze = new Maze(20, 20);
-        pathfinding  = new MazePathfinding(maze);
+
         List<MazeCell> mazeCells = maze.getCells();
         for (MazeCell mazeCell : mazeCells) {
             int x = mazeCell.getX();
@@ -122,31 +122,19 @@ public class MainApp extends GameApplication {
             System.out.printf("Couldn't Load assets");
             return;
         }
-
-        // EnemyBase
-        Random random = new Random();
-        Point enemyBaseDim = new Point(
-    (random.nextInt(10) + 10) * 48,
-    (random.nextInt(10) + 10) * 48
-        );
+        FXGL.set("enemyData", enemyData);
 
         spawn(
                 "EnemyBase",
                 new SpawnData()
                         .put("enemyBaseData", enemyBaseData)
-                        .put("position", enemyBaseDim)
+                        .put("position", FXGL.geto("enemyBasePos"))
         );
 
         spawn(
                 "Player",
                 new SpawnData()
                         .put("playerData", playerData)
-        );
-
-        spawn(
-                "Enemy",
-                new SpawnData()
-                        .put("enemyData", enemyData)
         );
     }
 
@@ -188,7 +176,6 @@ public class MainApp extends GameApplication {
 
     public void pathFinding (int x, int y) {
         int maceCellWidth = FXGL.geti("maceCellWidth");
-        //List<com.almasb.fxgl.entity.Entity> allEnemies = getGameWorld().getEntitiesByType(EntityType.ENEMY);
         List<Entity> allEnemies = game.getAllEntity();
         Enemy enemy = null;
         for (Entity _enemy : allEnemies) {
@@ -198,15 +185,10 @@ public class MainApp extends GameApplication {
             }
         }
         if (Objects.isNull(enemy)) { return; }
-        System.out.printf("enemy found");
 
         Point2D pos = new Point2D(FXGL.getInput().getMouseXWorld() / maceCellWidth, FXGL.getInput().getMouseYWorld() / maceCellWidth);
         Point2D pos2 = new Point2D((float) enemy.getGameEntity().getPosition().getX() / maceCellWidth, enemy.getGameEntity().getPosition().getY() / maceCellWidth);
         List<AStarMazeCell> path = pathfinding.findPath((int)pos2.getX(), (int)pos2.getY(), (int)pos.getX(), (int)pos.getY());
-        //List<AStarMazeCell> neighbors = pathfinding.getNeighbors(new AStarMazeCell(new MazeCell((int)pos.getX(), (int)pos.getY())));
-        //for (AStarMazeCell cell : path) {
-        // enemy.setDestination(game.getPosFromPoint(cell.getX(), cell.getY()));
-        //}
         for (AStarMazeCell cell : path) {
             enemy.setDestination(game.getPosFromPoint(cell.getX(), cell.getY()));
         }
