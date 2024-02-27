@@ -1,8 +1,6 @@
 package com.example.nanonodenexus;
 
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.dsl.components.AutoRotationComponent;
-import com.almasb.fxgl.dsl.components.EffectComponent;
 import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
@@ -10,6 +8,7 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.TimeComponent;
 import com.example.nanonodenexus.Components.EMPBallComponent;
+import com.example.nanonodenexus.Components.FoWComponent;
 import com.example.nanonodenexus.Components.HealthbarComponent;
 import com.example.nanonodenexus.data.*;
 import javafx.geometry.Point2D;
@@ -20,6 +19,20 @@ import javafx.scene.shape.Rectangle;
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class NNNFactory implements EntityFactory {
+
+    @Spawns("FoW")
+    public Entity spawnsFoW(SpawnData data) {
+        Point position = data.get("position");
+        Entity entity = entityBuilder(data)
+                .type(EntityType.FOG)
+                .collidable()
+                .at(40,40)
+                .with(new FoWComponent(position))
+                .with(new TimeComponent())
+                .build();
+
+        return entity;
+    }
 
     @Spawns("Enemy")
     public Entity spawnEnemy(SpawnData data) {
@@ -55,6 +68,7 @@ public class NNNFactory implements EntityFactory {
                 .with(new HealthbarComponent())
                 .build();
     }
+
     @Spawns("EmpBall")
     public Entity spawnEMPBall(SpawnData data) {
         EMPBallData empBallData = data.get("empBallData");

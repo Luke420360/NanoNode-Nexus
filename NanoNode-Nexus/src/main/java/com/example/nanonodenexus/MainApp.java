@@ -12,11 +12,16 @@ import com.example.nanonodenexus.data.EnemyBaseData;
 import com.example.nanonodenexus.data.EnemyData;
 import com.example.nanonodenexus.data.PlayerData;
 import com.example.nanonodenexus.data.TowerData;
+import com.example.nanonodenexus.data.*;
+import javafx.application.Application;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +37,7 @@ public class MainApp extends GameApplication {
     private Maze maze;
     private Enemy enemy;
     Text textPixels = new Text("Iron: -");
+    Text textKilledRobots = new Text("Killed Robots:");
     private AStarGrid aStarGrid = new AStarGrid(20, 20);
     private MazePathfinding pathfinding;
 
@@ -81,6 +87,7 @@ public class MainApp extends GameApplication {
         vars.put("maze", maze);
         pathfinding  = new MazePathfinding(maze);
         vars.put("pathFinding", pathfinding);
+        vars.put("killedRobots",  0);
     }
 
     public static void main(String[] args) {
@@ -89,9 +96,16 @@ public class MainApp extends GameApplication {
 
     @Override
     protected void initUI() {
+        String killedRobots = String.valueOf(geti("killedRobots"));
         textPixels.setTranslateX(50); // x = 50
         textPixels.setTranslateY(100); // y = 100
-        FXGL.getGameScene().addUINode(textPixels); // add to the scene graph
+        FXGL.getGameScene().addUINode(textPixels);
+        textKilledRobots.setTranslateX(50);
+        textKilledRobots.setTranslateY(150);
+        textKilledRobots.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 18));
+        textKilledRobots.setFill(Color.LIGHTSKYBLUE);
+        textKilledRobots.setText("Killed Robots: "+killedRobots);
+        FXGL.getGameScene().addUINode(textKilledRobots);
     }
 
     @Override
@@ -135,6 +149,18 @@ public class MainApp extends GameApplication {
                 "Player",
                 new SpawnData()
                         .put("playerData", playerData)
+        );
+
+        spawn(
+                "Enemy",
+                new SpawnData()
+                        .put("enemyData", enemyData)
+        );
+
+        spawn(
+                "FoW",
+                new SpawnData()
+                        .put("position", new Point(20,20))
         );
     }
 
