@@ -35,6 +35,7 @@ public class HealthbarComponent extends ChildViewComponent {
         if (hpBar.currentValueProperty().intValue() <= 0) {
             Entity entityToRemove = entity;
             FXGL.getGameWorld().removeEntity(entity);
+            game.addKilledRobot();
         }
     }
 }

@@ -22,12 +22,11 @@ public class NNNFactory implements EntityFactory {
 
     @Spawns("FoW")
     public Entity spawnsFoW(SpawnData data) {
-        Point position = data.get("position");
         Entity entity = entityBuilder(data)
                 .type(EntityType.FOG)
                 .collidable()
-                .at(40,40)
-                .with(new FoWComponent(position))
+                .at(0,0)
+                .with(new FoWComponent())
                 .with(new TimeComponent())
                 .build();
 

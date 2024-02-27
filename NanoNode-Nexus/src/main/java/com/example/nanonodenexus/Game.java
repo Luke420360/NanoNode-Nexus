@@ -7,7 +7,7 @@ import javafx.geometry.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class Game {
 
@@ -65,6 +65,13 @@ public class Game {
         this.iron += iron;
         System.out.printf("Added " + iron + "iron. now total " + this.iron);
         return this.iron;
+    }
+
+    public void addKilledRobot() {
+        int killedRobots = geti("killedRobots");
+        set("killedRobots", killedRobots +1);
+        int newkilledRobots = geti("killedRobots");
+        System.out.println(newkilledRobots);
     }
 
     public int removeIron(int iron) {

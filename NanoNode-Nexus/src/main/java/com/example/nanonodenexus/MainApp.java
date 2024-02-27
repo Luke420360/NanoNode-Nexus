@@ -69,6 +69,14 @@ public class MainApp extends GameApplication {
                 ((EnemyBase) en).onUpdate(tpf);
             }
         }
+//        FXGL.getGameScene().clearUINodes();
+//        textKilledRobots.setTranslateX(50);
+//        textKilledRobots.setTranslateY(150);
+//        textKilledRobots.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 18));
+//        textKilledRobots.setFill(Color.LIGHTSKYBLUE);
+//        String killedRobots = String.valueOf(geti("killedRobots"));
+//        textKilledRobots.setText("Killed Robots: "+killedRobots);
+//        FXGL.getGameScene().addUINode(textKilledRobots);
     }
 
     @Override
@@ -97,8 +105,8 @@ public class MainApp extends GameApplication {
     @Override
     protected void initUI() {
         String killedRobots = String.valueOf(geti("killedRobots"));
-        textPixels.setTranslateX(50); // x = 50
-        textPixels.setTranslateY(100); // y = 100
+        textPixels.setTranslateX(50);
+        textPixels.setTranslateY(100);
         FXGL.getGameScene().addUINode(textPixels);
         textKilledRobots.setTranslateX(50);
         textKilledRobots.setTranslateY(150);
@@ -138,12 +146,12 @@ public class MainApp extends GameApplication {
         }
         FXGL.set("enemyData", enemyData);
 
-        spawn(
-                "EnemyBase",
-                new SpawnData()
-                        .put("enemyBaseData", enemyBaseData)
-                        .put("position", FXGL.geto("enemyBasePos"))
-        );
+//        spawn(
+//                "EnemyBase",
+//                new SpawnData()
+//                        .put("enemyBaseData", enemyBaseData)
+//                        .put("position", FXGL.geto("enemyBasePos"))
+//        );
 
         spawn(
                 "Player",
@@ -160,8 +168,9 @@ public class MainApp extends GameApplication {
         spawn(
                 "FoW",
                 new SpawnData()
-                        .put("position", new Point(20,20))
+                        .put("position", new Point(0,0))
         );
+
     }
 
     @Override
