@@ -2,19 +2,28 @@ package com.example.nanonodenexus;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthIntComponent;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.time.LocalTimer;
 import com.example.nanonodenexus.data.EnemyData;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Line;
+import javafx.util.Duration;
 
 import java.util.*;
 
+import static com.almasb.fxgl.dsl.FXGL.newLocalTimer;
+import static com.almasb.fxgl.dsl.FXGL.spawn;
+
 public class Enemy extends Entity {
 
-    private int damage;
+    private int damage = 20;
     private int droppedIron;
     private Entity player; // Reference to the player entity
-    private double speed = 250;
+    private double speed = 150;
     private ArrayList<Point2D> destination;
+    private LocalTimer timer = newLocalTimer();
+    private Duration interval = Duration.seconds(2);
 
     protected Enemy(EnemyData data) {
         super(new Point(250, 250), data.hp(), new Point(48, 48), EntityType.ENEMY);
@@ -91,8 +100,19 @@ public class Enemy extends Entity {
             if (this.destination.size() > 1) {
                 Point2D nextDest = this.destination.get(1);
                 com.almasb.fxgl.entity.Entity tower = game.getEntity((int)nextDest.getX(), (int)nextDest.getY(), EntityType.TOWER);
+                com.almasb.fxgl.entity.Entity player = game.getEntity((int)nextDest.getX(), (int)nextDest.getY(), EntityType.PLAYER);
                 if (!Objects.isNull(tower)) {
-                    tower.getComponent(HealthIntComponent.class).damage(1);
+                    if (timer.elapsed(interval)) {
+                        tower.getComponent(HealthIntComponent.class).damage(this.damage);
+                        timer.capture();
+                    }
+                    return;
+                }
+                else if (!Objects.isNull(player)) {
+                    if (timer.elapsed(interval)) {
+                        player.getComponent(HealthIntComponent.class).damage(this.damage);
+                        timer.capture();
+                    }
                     return;
                 }
             }

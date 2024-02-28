@@ -4,10 +4,12 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.EffectComponent;
+import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.pathfinding.astar.AStarGrid;
 import com.almasb.fxgl.pathfinding.maze.Maze;
 import com.almasb.fxgl.pathfinding.maze.MazeCell;
+import com.almasb.fxgl.time.LocalTimer;
 import com.example.nanonodenexus.data.EnemyBaseData;
 import com.example.nanonodenexus.data.EnemyData;
 import com.example.nanonodenexus.data.PlayerData;
@@ -23,6 +25,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.util.*;
 
@@ -35,9 +38,11 @@ public class MainApp extends GameApplication {
     private Maze maze;
     private Enemy enemy;
     Text textPixels = new Text("Iron: -");
+    Text info = new Text("INFO");
     Text textKilledRobots = new Text("Killed Robots:");
     private AStarGrid aStarGrid = new AStarGrid(20, 20);
     private MazePathfinding pathfinding;
+    private double infoTimer = 3;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -75,6 +80,14 @@ public class MainApp extends GameApplication {
 //        String killedRobots = String.valueOf(geti("killedRobots"));
 //        textKilledRobots.setText("Killed Robots: "+killedRobots);
 //        FXGL.getGameScene().addUINode(textKilledRobots);
+        if (infoTimer > 0) infoTimer -= tpf;
+        if (infoTimer <= 0) info.setText("");
+
+    }
+
+    public void setInfo(String text, int duration) {
+        infoTimer = duration;
+        info.setText(text);
     }
 
     @Override
@@ -96,6 +109,7 @@ public class MainApp extends GameApplication {
         vars.put("pathFinding", pathfinding);
         vars.put("killedRobots",  0);
         vars.put("path", new ArrayList<>());
+        vars.put("setInfo", this);
     }
 
     public static void main(String[] args) {
@@ -104,6 +118,13 @@ public class MainApp extends GameApplication {
 
     @Override
     protected void initUI() {
+        info.setFont(Font.font("Verdana", 60));
+        double sceneWidth = FXGL.getAppWidth();
+        double sceneHeight = FXGL.getAppHeight();
+        info.setTranslateX(sceneWidth / 2 - info.getLayoutBounds().getWidth() / 2); // Center align text
+        info.setTranslateY(sceneHeight / 2 - info.getLayoutBounds().getHeight() / 2); // Middle of the screen
+        FXGL.addUINode(info);
+
         String killedRobots = String.valueOf(geti("killedRobots"));
         textPixels.setTranslateX(50);
         textPixels.setTranslateY(100);
@@ -120,21 +141,7 @@ public class MainApp extends GameApplication {
     protected void initGame() {
         getGameWorld().addEntityFactory(new NNNFactory());
 
-        List<MazeCell> mazeCells = maze.getCells();
-        for (MazeCell mazeCell : mazeCells) {
-            int x = mazeCell.getX();
-            int y = mazeCell.getY();
-            boolean topWall = mazeCell.hasTopWall();
-            boolean leftWall = mazeCell.hasLeftWall();
-            int maceCellWidth = FXGL.geti("maceCellWidth");
-
-            Rectangle rect = new Rectangle(maceCellWidth - (leftWall ? 1 : 0), maceCellWidth - (topWall ? 1 : 0), Color.GREY);
-            FXGL.entityBuilder()
-                    .at((x * maceCellWidth) + (leftWall ? 1 : 0), (y * maceCellWidth) + (topWall ? 1 : 0))
-                    .view(rect)
-                    .with(new EffectComponent())
-                    .buildAndAttach();
-        }
+        pathfinding.renderMaze();
 
         EnemyData enemyData = getAssetLoader().loadJSON("enemies/enemy.json" , EnemyData.class).orElse(null);
         PlayerData playerData = getAssetLoader().loadJSON("players/player.json" , PlayerData.class).orElse(null);
@@ -145,6 +152,7 @@ public class MainApp extends GameApplication {
             return;
         }
         FXGL.set("enemyData", enemyData);
+
 
         spawn(
                 "EnemyBase",
@@ -170,6 +178,8 @@ public class MainApp extends GameApplication {
                 new SpawnData()
                         .put("position", new Point(0,0))
         );
+
+        setInfo("START", 3);
 
     }
 

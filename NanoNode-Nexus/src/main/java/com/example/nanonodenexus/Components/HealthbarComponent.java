@@ -7,6 +7,7 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.ui.ProgressBar;
 import com.example.nanonodenexus.EntityType;
 import com.example.nanonodenexus.Game;
+import com.example.nanonodenexus.MainApp;
 import javafx.scene.paint.Color;
 
 public class HealthbarComponent extends ChildViewComponent {
@@ -39,6 +40,10 @@ public class HealthbarComponent extends ChildViewComponent {
             FXGL.getGameWorld().removeEntity(entity);
             Game game = FXGL.geto("gameInstance");
             if(entity.isType(EntityType.ENEMY)) game.addKilledRobot();
+            else if (entity.isType(EntityType.PLAYER)) {
+                MainApp app = FXGL.geto("setInfo");
+                app.setInfo("YOU DIED!", 10);
+            }
             game.removeEntityFromFXGLEntity(entity);
         }
     }

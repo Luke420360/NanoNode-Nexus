@@ -3,6 +3,7 @@ package com.example.nanonodenexus;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.EffectComponent;
 import com.almasb.fxgl.pathfinding.maze.Maze;
+import com.almasb.fxgl.pathfinding.maze.MazeCell;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -121,5 +122,23 @@ public class MazePathfinding {
 
     private int heuristic(AStarMazeCell cell, AStarMazeCell target) {
         return Math.abs(cell.getX() - target.getX()) + Math.abs(cell.getY() - target.getY());
+    }
+
+    public void renderMaze() {
+        List<MazeCell> mazeCells = maze.getCells();
+        for (MazeCell mazeCell : mazeCells) {
+            int x = mazeCell.getX();
+            int y = mazeCell.getY();
+            boolean topWall = mazeCell.hasTopWall();
+            boolean leftWall = mazeCell.hasLeftWall();
+            int maceCellWidth = FXGL.geti("maceCellWidth");
+
+            Rectangle rect = new Rectangle(maceCellWidth - (leftWall ? 1 : 0), maceCellWidth - (topWall ? 1 : 0), Color.GREY);
+            FXGL.entityBuilder()
+                    .at((x * maceCellWidth) + (leftWall ? 1 : 0), (y * maceCellWidth) + (topWall ? 1 : 0))
+                    .view(rect)
+                    .with(new EffectComponent())
+                    .buildAndAttach();
+        }
     }
 }
