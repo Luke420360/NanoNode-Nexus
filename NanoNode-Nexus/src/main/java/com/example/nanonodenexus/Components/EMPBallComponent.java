@@ -12,8 +12,8 @@ import static com.almasb.fxgl.dsl.FXGL.newLocalTimer;
 public class EMPBallComponent extends Component {
     private Point2D initPoint;
     private Entity target;
-    private double speed  = 20;
-    private int damage = 20;
+    private double speed  = 50;
+    private int damage = 1;
 
     public EMPBallComponent(Point2D initPoint, Entity target) {
         this.target = target;

@@ -23,10 +23,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Objects;
+
+import java.util.*;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -96,6 +94,7 @@ public class MainApp extends GameApplication {
         pathfinding  = new MazePathfinding(maze);
         vars.put("pathFinding", pathfinding);
         vars.put("killedRobots",  0);
+        vars.put("path", new ArrayList<>());
     }
 
     public static void main(String[] args) {
@@ -146,12 +145,24 @@ public class MainApp extends GameApplication {
         }
         FXGL.set("enemyData", enemyData);
 
-//        spawn(
-//                "EnemyBase",
-//                new SpawnData()
-//                        .put("enemyBaseData", enemyBaseData)
-//                        .put("position", FXGL.geto("enemyBasePos"))
-//        );
+        for (int i = 1; i < 5; i++) {
+            for (int j = 1; j < 5; j++) {
+                TowerData towerData = getAssetLoader().loadJSON("towers/tower.json" , TowerData.class).orElse(null);
+                spawn(
+                        "Tower",
+                        new SpawnData()
+                                .put("towerData", towerData)
+                                .put("position", new Point(i * 48, j *48))
+                );
+            }
+        }
+
+        spawn(
+                "EnemyBase",
+                new SpawnData()
+                        .put("enemyBaseData", enemyBaseData)
+                        .put("position", FXGL.geto("enemyBasePos"))
+        );
 
         spawn(
                 "Player",
@@ -165,11 +176,11 @@ public class MainApp extends GameApplication {
                         .put("enemyData", enemyData)
         );
 
-        spawn(
-                "FoW",
-                new SpawnData()
-                        .put("position", new Point(0,0))
-        );
+//        spawn(
+//                "FoW",
+//                new SpawnData()
+//                        .put("position", new Point(0,0))
+//        );
 
     }
 

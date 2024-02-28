@@ -26,11 +26,19 @@ public class Game {
         );
     }
 
+    public void removeEntityFromFXGLEntity(com.almasb.fxgl.entity.Entity entityToRemove) {
+        for (Entity ent : this.entities) {
+            if (ent.getGameEntity() == entityToRemove)
+                this.removeEntity(ent);
+            return;
+        }
+    }
+
     public Point2D getPosFromPoint(int x, int y) {
         int maceCellWidth = FXGL.geti("maceCellWidth");
         return new Point2D(
                 (x) * maceCellWidth,
-                (y) *  maceCellWidth
+                (y) * maceCellWidth
         );
     }
 

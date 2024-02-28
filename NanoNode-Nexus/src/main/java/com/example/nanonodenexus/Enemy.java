@@ -13,7 +13,7 @@ public class Enemy extends Entity {
     private int damage;
     private int droppedIron;
     private Entity player; // Reference to the player entity
-    private double speed = 200;
+    private double speed = 250;
     private ArrayList<Point2D> destination;
 
     protected Enemy(EnemyData data) {
@@ -55,12 +55,17 @@ public class Enemy extends Entity {
         int maceCellWidth = FXGL.geti("maceCellWidth");
         Game game = FXGL.geto("gameInstance");
 
+        List<AStarMazeCell> path = FXGL.geto("path");
+        if (path.isEmpty()) {
+            path = pathFinding.findPath(
+                    enemyBasePos.x() / maceCellWidth,
+                    enemyBasePos.y() / maceCellWidth,
+                    playerPos.x(),
+                    playerPos.y());
+            FXGL.set("path", path);
+        }
+
         entity.setPosition(enemyBasePos.x(), enemyBasePos.y());
-        List<AStarMazeCell> path = pathFinding.findPath(
-                enemyBasePos.x() / maceCellWidth,
-                enemyBasePos.y() / maceCellWidth,
-                playerPos.x(),
-                playerPos.y());
         for (AStarMazeCell cell : path) {
             this.setDestination(game.getPosFromPoint(cell.getX(), cell.getY()));
         }

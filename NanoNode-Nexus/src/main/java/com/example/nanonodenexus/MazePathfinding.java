@@ -45,11 +45,11 @@ public class MazePathfinding {
             closedSet.add(current);
 
             Rectangle rect = new Rectangle(3, 3, Color.GREEN);
-            FXGL.entityBuilder()
-                    .at((current.getX()+.5) * maceCellWidth, (current.getY()+.5) * maceCellWidth)
-                    .view(rect)
-                    .with(new EffectComponent())
-                    .buildAndAttach();
+//            FXGL.entityBuilder()
+//                    .at((current.getX()+.5) * maceCellWidth, (current.getY()+.5) * maceCellWidth)
+//                    .view(rect)
+//                    .with(new EffectComponent())
+//                    .buildAndAttach();
 
             for (AStarMazeCell neighbor : getNeighbors(current)) {
                 if (closedSet.contains(neighbor)) continue;

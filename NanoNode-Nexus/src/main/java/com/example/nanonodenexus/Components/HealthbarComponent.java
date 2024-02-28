@@ -39,6 +39,7 @@ public class HealthbarComponent extends ChildViewComponent {
             FXGL.getGameWorld().removeEntity(entity);
             Game game = FXGL.geto("gameInstance");
             if(entity.isType(EntityType.ENEMY)) game.addKilledRobot();
+            game.removeEntityFromFXGLEntity(entity);
         }
     }
 }
