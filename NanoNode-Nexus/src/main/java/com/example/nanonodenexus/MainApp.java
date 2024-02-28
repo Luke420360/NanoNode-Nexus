@@ -165,11 +165,11 @@ public class MainApp extends GameApplication {
                         .put("enemyData", enemyData)
         );
 
-//        spawn(
-//                "FoW",
-//                new SpawnData()
-//                        .put("position", new Point(0,0))
-//        );
+        spawn(
+                "FoW",
+                new SpawnData()
+                        .put("position", new Point(0,0))
+        );
 
     }
 
