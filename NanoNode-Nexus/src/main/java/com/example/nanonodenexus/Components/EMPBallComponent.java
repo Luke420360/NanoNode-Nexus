@@ -13,7 +13,7 @@ public class EMPBallComponent extends Component {
     private Point2D initPoint;
     private Entity target;
     private double speed  = 200;
-    private int damage = 1;
+    private int damage = 20;
 
     public EMPBallComponent(Point2D initPoint, Entity target) {
         this.target = target;

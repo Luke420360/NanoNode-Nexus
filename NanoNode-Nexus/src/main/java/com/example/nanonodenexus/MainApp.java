@@ -3,29 +3,22 @@ package com.example.nanonodenexus;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.dsl.components.EffectComponent;
-import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.pathfinding.astar.AStarGrid;
 import com.almasb.fxgl.pathfinding.maze.Maze;
-import com.almasb.fxgl.pathfinding.maze.MazeCell;
-import com.almasb.fxgl.time.LocalTimer;
 import com.example.nanonodenexus.data.EnemyBaseData;
 import com.example.nanonodenexus.data.EnemyData;
 import com.example.nanonodenexus.data.PlayerData;
 import com.example.nanonodenexus.data.TowerData;
-import com.example.nanonodenexus.data.*;
-import javafx.application.Application;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 import java.util.*;
 
@@ -35,6 +28,9 @@ public class MainApp extends GameApplication {
 
     // private List<Entity> gameObjects;
     private Game game = new Game();
+    Label overlayPanelTitle;
+    Label enemyKillCountLabel;
+    Label ironCount;
     private Maze maze;
     private Enemy enemy;
     Text textPixels = new Text("Iron: -");
@@ -46,7 +42,6 @@ public class MainApp extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        //settings.setFullScreenFromStart(true);
         settings.setFullScreenAllowed(true);
         settings.setWidth(960);
         settings.setHeight(960);
@@ -72,17 +67,8 @@ public class MainApp extends GameApplication {
                 ((EnemyBase) en).onUpdate(tpf);
             }
         }
-//        FXGL.getGameScene().clearUINodes();
-//        textKilledRobots.setTranslateX(50);
-//        textKilledRobots.setTranslateY(150);
-//        textKilledRobots.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 18));
-//        textKilledRobots.setFill(Color.LIGHTSKYBLUE);
-//        String killedRobots = String.valueOf(geti("killedRobots"));
-//        textKilledRobots.setText("Killed Robots: "+killedRobots);
-//        FXGL.getGameScene().addUINode(textKilledRobots);
         if (infoTimer > 0) infoTimer -= tpf;
         if (infoTimer <= 0) info.setText("");
-
     }
 
     public void setInfo(String text, int duration) {
@@ -93,22 +79,35 @@ public class MainApp extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         Random random = new Random();
+
+        //Var for the Game
+        vars.put("gameInstance", game);
+
+        //Vars for the GameField;
         vars.put("clearView",  4);
         vars.put("maceCellWidth", 48);
-        vars.put("gameInstance", game);
-        vars.put("enemyBasePos", new Point(
-                (random.nextInt(10) + 10) * 48,
-                (random.nextInt(10) + 10) * 48
-        ));
-        vars.put("playerPos", new Point(
-                0, 0
-        ));
         maze = new Maze(20, 20);
         vars.put("maze", maze);
         pathfinding  = new MazePathfinding(maze);
         vars.put("pathFinding", pathfinding);
-        vars.put("killedRobots",  0);
         vars.put("path", new ArrayList<>());
+
+        //Vars for the EnemyBase
+        vars.put("enemyBasePos", new Point(
+                (random.nextInt(10) + 10) * 48,
+                (random.nextInt(10) + 10) * 48
+        ));
+
+        //Vars for the Player
+        vars.put("playerPos", new Point(
+                0, 0
+        ));
+        vars.put("iron",  2000);
+
+        //Vars for the Enemy
+        vars.put("killedRobots",  0);
+
+        //Vars for the UI
         vars.put("setInfo", this);
     }
 
@@ -121,28 +120,41 @@ public class MainApp extends GameApplication {
         info.setFont(Font.font("Verdana", 60));
         double sceneWidth = FXGL.getAppWidth();
         double sceneHeight = FXGL.getAppHeight();
-        info.setTranslateX(sceneWidth / 2 - info.getLayoutBounds().getWidth() / 2); // Center align text
-        info.setTranslateY(sceneHeight / 2 - info.getLayoutBounds().getHeight() / 2); // Middle of the screen
+        info.setTranslateX(sceneWidth / 2 - info.getLayoutBounds().getWidth() / 2);
+        info.setTranslateY(sceneHeight / 2 - info.getLayoutBounds().getHeight() / 2);
         FXGL.addUINode(info);
 
-        String killedRobots = String.valueOf(geti("killedRobots"));
-        textPixels.setTranslateX(50);
-        textPixels.setTranslateY(100);
-        FXGL.getGameScene().addUINode(textPixels);
-        textKilledRobots.setTranslateX(50);
-        textKilledRobots.setTranslateY(150);
-        textKilledRobots.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 18));
-        textKilledRobots.setFill(Color.LIGHTSKYBLUE);
-        textKilledRobots.setText("Killed Robots: "+killedRobots);
-        FXGL.getGameScene().addUINode(textKilledRobots);
+        overlayPanelTitle = new Label("Overview");
+        overlayPanelTitle.setTextFill(Color.DARKGREEN);
+        overlayPanelTitle.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        enemyKillCountLabel = new Label("Enemy Kills: 0");
+        ironCount = new Label("Iron: " + geti("iron"));
+
+        overlayPanelTitle.setTranslateX(10);
+        overlayPanelTitle.setTranslateY(10);
+        enemyKillCountLabel.setTranslateX(10);
+        enemyKillCountLabel.setTranslateY(40);
+        ironCount.setTranslateX(10);
+        ironCount.setTranslateY(55);
+
+        Pane ovlyPnl = new Pane();
+        ovlyPnl.setPrefSize(200, 100);
+        ovlyPnl.setLayoutX(getAppWidth() -220);
+        ovlyPnl.setLayoutY(10);
+        ovlyPnl.setStyle("-fx-background-color: rgba(200, 255, 200, 0.4);");
+        ovlyPnl.toFront();
+
+        ovlyPnl.getChildren().add(overlayPanelTitle);
+        ovlyPnl.getChildren().add(enemyKillCountLabel);
+        ovlyPnl.getChildren().add(ironCount);
+
+        getGameScene().addUINode(ovlyPnl);
     }
 
     @Override
     protected void initGame() {
         getGameWorld().addEntityFactory(new NNNFactory());
-
         pathfinding.renderMaze();
-
         EnemyData enemyData = getAssetLoader().loadJSON("enemies/enemy.json" , EnemyData.class).orElse(null);
         PlayerData playerData = getAssetLoader().loadJSON("players/player.json" , PlayerData.class).orElse(null);
         EnemyBaseData enemyBaseData = getAssetLoader().loadJSON("enemyBase/enemyBase.json" , EnemyBaseData.class).orElse(null);
@@ -151,8 +163,8 @@ public class MainApp extends GameApplication {
             System.out.printf("Couldn't Load assets");
             return;
         }
-        FXGL.set("enemyData", enemyData);
 
+        FXGL.set("enemyData", enemyData);
 
         spawn(
                 "EnemyBase",
@@ -168,37 +180,21 @@ public class MainApp extends GameApplication {
         );
 
         spawn(
-                "Enemy",
-                new SpawnData()
-                        .put("enemyData", enemyData)
-        );
-
-        spawn(
                 "FoW",
                 new SpawnData()
                         .put("position", new Point(0,0))
         );
 
         setInfo("START", 3);
-
     }
 
     @Override
     protected void initInput() {
-
         FXGL.getInput().addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 int x = (int)  FXGL.getInput().getMouseXWorld();
                 int y = (int)  FXGL.getInput().getMouseYWorld();
                 addTower(x, y);
-                //EnemyData enemyData = getAssetLoader().loadJSON("enemies/enemy.json" , EnemyData.class).orElse(null);
-                //spawn(
-                //        "Enemy",
-                //        new SpawnData()
-                //                .put("enemyData", enemyData)
-                //                .put("position", new Point(x, y))
-                //);
-
             }
             else if (event.getButton() == MouseButton.PRIMARY) {
                 int x = (int)  FXGL.getInput().getMouseXWorld();
@@ -208,16 +204,24 @@ public class MainApp extends GameApplication {
     }
 
     public void addTower (int x, int y) {
+        int towerCost = 500;
+
         TowerData towerData = getAssetLoader().loadJSON("towers/tower.json" , TowerData.class).orElse(null);
         int placeableRange = FXGL.geti("clearView");
         Point initPoint = game.getPointFromPos( new Point2D(x,y));
         if(initPoint.x() >= placeableRange || initPoint.y() >= placeableRange) return;
+        int playersIron = geti("iron");
+        if(playersIron < towerCost) return;
+        set("iron", playersIron - towerCost);
+        ironCount.setText("Iron: " + geti("iron"));
+
         spawn(
                 "Tower",
                 new SpawnData()
                         .put("towerData", towerData)
                         .put("position", new Point(initPoint.x() * 48, initPoint.y() *48))
         );
+
     }
 
     public void pathFinding (int x, int y) {
@@ -239,4 +243,17 @@ public class MainApp extends GameApplication {
             enemy.setDestination(game.getPosFromPoint(cell.getX(), cell.getY()));
         }
     }
+
+    public void  onEnemyKilled() {
+        int killedRobots = geti("killedRobots");
+        enemyKillCountLabel.setText("Enemy Kills: " + killedRobots);
+        set("iron", geti("iron") + 150);
+        ironCount.setText("Iron: " + geti("iron"));
+    }
+
+    public void gameEnd(){
+        infoTimer = 5;
+        info.setText("Won!");
+    }
+
 }

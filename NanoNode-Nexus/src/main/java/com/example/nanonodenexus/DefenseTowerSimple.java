@@ -8,6 +8,8 @@ import com.almasb.fxgl.time.LocalTimer;
 import com.example.nanonodenexus.data.EMPBallData;
 import com.example.nanonodenexus.data.TowerData;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -30,6 +32,12 @@ public class DefenseTowerSimple extends DefenseTower{
         entity.setPosition(position);
         shootTimer = newLocalTimer();
         shootTimer.capture();
+        Circle rangeCircle = new Circle(48 * 4, Color.TRANSPARENT);
+        rangeCircle.setStroke(Color.GHOSTWHITE);
+        rangeCircle.setStrokeWidth(1);
+        rangeCircle.setCenterX(24);
+        rangeCircle.setCenterY(24);
+        entity.getViewComponent().addChild(rangeCircle);
     }
 
     @Override
@@ -38,6 +46,8 @@ public class DefenseTowerSimple extends DefenseTower{
             if (shootTimer.elapsed(shootInterval)) {
                 getGameWorld().getClosestEntity(entity, e -> e.isType(EntityType.ENEMY) || e.isType(EntityType.ENEMY_BASE))
                         .ifPresent(nearestEnemy -> {
+                            var enemyPosition = nearestEnemy.getPosition();
+                            if(enemyPosition.distance(this.position) > 4*48) return;
                             shoot(nearestEnemy);
                         });
                 shootTimer.capture();

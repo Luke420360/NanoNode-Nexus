@@ -71,24 +71,18 @@ public class Game {
 
     public int addIron(int iron) {
         this.iron += iron;
-        System.out.printf("Added " + iron + "iron. now total " + this.iron);
         return this.iron;
     }
 
     public void addKilledRobot() {
         int killedRobots = geti("killedRobots");
         set("killedRobots", killedRobots +1);
-        int newkilledRobots = geti("killedRobots");
-        System.out.println(newkilledRobots);
+        FXGL.<MainApp>getAppCast().onEnemyKilled();
     }
 
     public int removeIron(int iron) {
         this.iron -= iron;
-        System.out.printf("removed " + iron + "iron. now total " + this.iron);
         return this.iron;
     }
 
-    public void update() {
-
-    }
 }

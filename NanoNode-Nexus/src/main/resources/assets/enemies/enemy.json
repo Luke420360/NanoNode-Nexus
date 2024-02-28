@@ -1,6 +1,6 @@
 {
-  "hp": 150,
-  "reward": 15,
+  "hp": 50,
+  "reward": 150,
   "moveSpeed": 2.2,
   "interval": 0.5,
   "imageName": "enemy.png"

@@ -21,6 +21,7 @@ public class FoWComponent extends Component {
     private void renderFoW(int killedRobots) {
         int startValue = 0;
         entity.getViewComponent().clearChildren();
+        entity.setZIndex(10);
         if(killedRobots <= 5) {
             startValue = 4;
             FXGL.set("clearView", startValue);

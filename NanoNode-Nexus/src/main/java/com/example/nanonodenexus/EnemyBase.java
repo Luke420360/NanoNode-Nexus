@@ -41,6 +41,7 @@ public class EnemyBase extends Entity {
             );
             timer.capture();
         }
+//        if(this.getHp() <= 0) gameEnd();
 
     }
 }
