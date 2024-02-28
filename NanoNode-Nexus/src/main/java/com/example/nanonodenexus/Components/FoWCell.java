@@ -10,10 +10,10 @@ import javafx.scene.shape.Rectangle;
 public class FoWCell extends Node {
     private final Rectangle cell;
 
-    public FoWCell(Point position) {
+    public FoWCell(Point position, double alphaColor) {
         int width = 48;
         cell = new Rectangle(position.x(),position.y(), width, width);
-        cell.setFill(Color.rgb(20,20,20,0.99));
+        cell.setFill(Color.rgb(20,20,20,alphaColor));
     }
 
     public Rectangle getCell() {

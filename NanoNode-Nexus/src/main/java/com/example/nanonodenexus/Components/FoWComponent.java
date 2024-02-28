@@ -41,7 +41,9 @@ public class FoWComponent extends Component {
         for (int row = 0; row < 20; row++) {
             for (int col = 0; col < 20; col++) {
                 if(row < startValue && col < startValue) continue;
-                FoWCell cell = new FoWCell(new Point(col*48, row*48));
+                double alpha = 0.9 + ((double) ((col + row) / 2) / 100);
+                if (alpha > 1) alpha = 1;
+                FoWCell cell = new FoWCell(new Point(col*48, row*48), alpha);
                 entity.getViewComponent().addChild(cell.getCell());
             }
         }
