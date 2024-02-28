@@ -13,11 +13,6 @@ public class FoWComponent extends Component {
     private final Color fogColor = Color.DARKGREY;
 
     @Override
-    public void onAdded() {
-        System.out.println("Mounted");
-    }
-
-    @Override
     public void onUpdate(double tpf) {
         int killedRobots = FXGL.geti("killedRobots");
         renderFoW(killedRobots);
@@ -26,22 +21,26 @@ public class FoWComponent extends Component {
     private void renderFoW(int killedRobots) {
         int startValue = 0;
         entity.getViewComponent().clearChildren();
-        if(killedRobots < 1) {
+        if(killedRobots <= 5) {
             startValue = 4;
+            FXGL.set("clearView", startValue);
         }
-        else if(killedRobots >= 1) {
+        else if(killedRobots <= 10) {
             startValue = 10;
+            FXGL.set("clearView", startValue);
         }
         else if(killedRobots <= 15) {
             startValue = 15;
+            FXGL.set("clearView", startValue);
         }
         else {
             startValue = 20;
+            FXGL.set("clearView", startValue);
         }
         for (int row = 0; row < 20; row++) {
             for (int col = 0; col < 20; col++) {
                 if(row < startValue && col < startValue) continue;
-                double alpha = 0.9 + ((double) ((col + row) / 2) / 100);
+                double alpha = 0.25 + ((double) (( -startValue + col + row)) / 14);
                 if (alpha > 1) alpha = 1;
                 FoWCell cell = new FoWCell(new Point(col*48, row*48), alpha);
                 entity.getViewComponent().addChild(cell.getCell());

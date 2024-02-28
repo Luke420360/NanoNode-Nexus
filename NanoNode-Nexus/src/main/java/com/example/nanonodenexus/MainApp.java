@@ -80,6 +80,7 @@ public class MainApp extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         Random random = new Random();
+        vars.put("clearView",  4);
         vars.put("maceCellWidth", 48);
         vars.put("gameInstance", game);
         vars.put("enemyBasePos", new Point(
@@ -145,18 +146,6 @@ public class MainApp extends GameApplication {
         }
         FXGL.set("enemyData", enemyData);
 
-        for (int i = 1; i < 5; i++) {
-            for (int j = 1; j < 5; j++) {
-                TowerData towerData = getAssetLoader().loadJSON("towers/tower.json" , TowerData.class).orElse(null);
-                spawn(
-                        "Tower",
-                        new SpawnData()
-                                .put("towerData", towerData)
-                                .put("position", new Point(i * 48, j *48))
-                );
-            }
-        }
-
         spawn(
                 "EnemyBase",
                 new SpawnData()
@@ -204,14 +193,15 @@ public class MainApp extends GameApplication {
             else if (event.getButton() == MouseButton.PRIMARY) {
                 int x = (int)  FXGL.getInput().getMouseXWorld();
                 int y = (int)  FXGL.getInput().getMouseYWorld();
-                pathFinding(x, y);
             }
         });
     }
 
     public void addTower (int x, int y) {
         TowerData towerData = getAssetLoader().loadJSON("towers/tower.json" , TowerData.class).orElse(null);
+        int placeableRange = FXGL.geti("clearView");
         Point initPoint = game.getPointFromPos( new Point2D(x,y));
+        if(initPoint.x() >= placeableRange || initPoint.y() >= placeableRange) return;
         spawn(
                 "Tower",
                 new SpawnData()
