@@ -17,8 +17,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 public class DefenseTowerSimple extends DefenseTower{
 
     private LocalTimer shootTimer = newLocalTimer();
-    private Duration shootInterval = Duration.seconds(2);
-    public static int cost = 200;
+    private Duration shootInterval = Duration.seconds(0.5);
     private Point2D position;
 
     protected DefenseTowerSimple(TowerData data, Point position) {
@@ -32,12 +31,6 @@ public class DefenseTowerSimple extends DefenseTower{
         entity.setPosition(position);
         shootTimer = newLocalTimer();
         shootTimer.capture();
-        Circle rangeCircle = new Circle(48 * 4, Color.TRANSPARENT);
-        rangeCircle.setStroke(Color.GHOSTWHITE);
-        rangeCircle.setStrokeWidth(1);
-        rangeCircle.setCenterX(24);
-        rangeCircle.setCenterY(24);
-        entity.getViewComponent().addChild(rangeCircle);
     }
 
     @Override

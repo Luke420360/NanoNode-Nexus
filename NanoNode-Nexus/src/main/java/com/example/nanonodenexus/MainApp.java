@@ -2,20 +2,27 @@ package com.example.nanonodenexus;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.core.math.Vec2;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.pathfinding.astar.AStarGrid;
 import com.almasb.fxgl.pathfinding.maze.Maze;
+import com.almasb.fxgl.texture.Texture;
 import com.example.nanonodenexus.data.EnemyBaseData;
 import com.example.nanonodenexus.data.EnemyData;
 import com.example.nanonodenexus.data.PlayerData;
 import com.example.nanonodenexus.data.TowerData;
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -28,6 +35,8 @@ public class MainApp extends GameApplication {
 
     // private List<Entity> gameObjects;
     private Game game = new Game();
+    private Circle hoverCircle;
+    private Texture towerTexture;
     Label overlayPanelTitle;
     Label enemyKillCountLabel;
     Label ironCount;
@@ -138,6 +147,7 @@ public class MainApp extends GameApplication {
         ironCount.setTranslateY(55);
 
         Pane ovlyPnl = new Pane();
+        Button btnTower = new Button("Tower");
         ovlyPnl.setPrefSize(200, 100);
         ovlyPnl.setLayoutX(getAppWidth() -220);
         ovlyPnl.setLayoutY(10);
@@ -149,6 +159,24 @@ public class MainApp extends GameApplication {
         ovlyPnl.getChildren().add(ironCount);
 
         getGameScene().addUINode(ovlyPnl);
+
+        //OnHoverCircle
+        hoverCircle = new Circle(48 * 4, Color.TRANSPARENT);
+        hoverCircle.setStroke(Color.GREEN);
+        hoverCircle.setStrokeWidth(1);
+
+        towerTexture = FXGL.getAssetLoader().loadTexture("tower.png");
+        towerTexture.setFitWidth(48); // Passe die Größe des Bildes an
+        towerTexture.setFitHeight(48); // Passe die Größe des Bildes an
+
+        // Berechne die Position des Bildes, um es mittig im Kreis zu platzieren
+        double imageX = hoverCircle.getCenterX() - towerTexture.getFitWidth() / 2;
+        double imageY = hoverCircle.getCenterY() - towerTexture.getFitHeight() / 2;
+        towerTexture.setTranslateX(imageX);
+        towerTexture.setTranslateY(imageY);
+
+        Group hoverGroup = new Group(hoverCircle, towerTexture);
+        FXGL.getGameScene().addUINode(hoverGroup);
     }
 
     @Override
@@ -190,6 +218,14 @@ public class MainApp extends GameApplication {
 
     @Override
     protected void initInput() {
+
+        FXGL.getGameScene().getRoot().setOnMouseMoved(event -> {
+            hoverCircle.setCenterX(FXGL.getInput().getMouseXWorld());
+            hoverCircle.setCenterY(FXGL.getInput().getMouseYWorld());
+            towerTexture.setX(FXGL.getInput().getMouseXWorld());
+            towerTexture.setY(FXGL.getInput().getMouseYWorld());
+        });
+
         FXGL.getInput().addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 int x = (int)  FXGL.getInput().getMouseXWorld();

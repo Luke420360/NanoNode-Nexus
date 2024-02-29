@@ -38,11 +38,30 @@ public class FoWComponent extends Component {
             startValue = 20;
             FXGL.set("clearView", startValue);
         }
+
+
         for (int row = 0; row < 20; row++) {
             for (int col = 0; col < 20; col++) {
                 if(row < startValue && col < startValue) continue;
-                double alpha = 0.25 + ((double) (( -startValue + col + row)) / 14);
-                if (alpha > 1) alpha = 1;
+                double alpha = 1;
+                if((col <=startValue +1 && row <=startValue +2) || (col <=startValue +2  && row <= startValue +1)) {
+                    if(col < row) {
+                        alpha = switch (row - startValue +1) {
+                            case 1 -> 0.25;
+                            case 2 -> 0.5;
+                            case 3 -> 0.75;
+                            default -> alpha;
+                        };
+                    }
+                    else if (row <= col){
+                        alpha = switch (col - startValue +1) {
+                            case 1 -> 0.25;
+                            case 2 -> 0.5;
+                            case 3 -> 0.75;
+                            default -> alpha;
+                        };
+                    }
+                }
                 FoWCell cell = new FoWCell(new Point(col*48, row*48), alpha);
                 entity.getViewComponent().addChild(cell.getCell());
             }

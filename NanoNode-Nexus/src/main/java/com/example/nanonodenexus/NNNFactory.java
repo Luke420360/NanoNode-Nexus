@@ -112,14 +112,10 @@ public class NNNFactory implements EntityFactory {
         if(position == null) return null;
         System.out.println("planted");
         // Create a rectangle that matches the hitbox size, adjust width and height accordingly
-        Rectangle hitboxView = new Rectangle(48, 48);
-        hitboxView.setStroke(Color.RED); // Set the border color of the rectangle
-        hitboxView.setFill(Color.TRANSPARENT); // Set the inside of the rectangle to be transparent
 
         return entityBuilder(data)
                 .type(EntityType.TOWER)
                 .viewWithBBox(towerData.imageName())
-                .view(hitboxView)
                 .collidable()
                 .with(new TimeComponent())
                 .with(new HealthIntComponent(towerData.hp()))
