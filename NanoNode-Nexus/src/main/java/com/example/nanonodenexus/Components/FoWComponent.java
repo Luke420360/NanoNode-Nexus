@@ -39,7 +39,6 @@ public class FoWComponent extends Component {
             FXGL.set("clearView", startValue);
         }
 
-
         for (int row = 0; row < 20; row++) {
             for (int col = 0; col < 20; col++) {
                 if(row < startValue && col < startValue) continue;
@@ -53,7 +52,7 @@ public class FoWComponent extends Component {
                             default -> alpha;
                         };
                     }
-                    else if (row <= col){
+                    else {
                         alpha = switch (col - startValue +1) {
                             case 1 -> 0.25;
                             case 2 -> 0.5;
