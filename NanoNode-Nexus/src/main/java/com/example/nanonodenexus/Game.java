@@ -1,6 +1,10 @@
 package com.example.nanonodenexus;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.SpawnData;
+import com.example.nanonodenexus.data.EnemyBaseData;
+import com.example.nanonodenexus.data.EnemyData;
+import com.example.nanonodenexus.data.PlayerData;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 
@@ -13,9 +17,49 @@ public class Game {
 
     private List<Entity> entities;
     private int iron;
+
+    public int getLevel() {
+        return level;
+    }
+
+    private int level = 0;
     public Game() {
         this.entities = new ArrayList<>();
         this.iron = 1000;
+    }
+
+    public Enemy addLevelModifier(Enemy enemy) {
+        enemy.setModifier(
+                enemy.getDamage() + this.level * 5,
+                enemy.getSpeed() + this.level * 25,
+                enemy.getHp() + this.level * 25
+        );
+        return enemy;
+    }
+
+    public void levelUp () {
+        this.level++;
+        FXGL.<MainApp>getAppCast().setInfo("LEVEL " + this.level + 1, 3);
+        for (Entity entity : this.entities) {
+            entity.setActive(false);
+            this.removeEntity(entity);
+            FXGL.getGameWorld().removeEntity(entity.getGameEntity());
+        }
+        PlayerData playerData = FXGL.geto("playerData");
+        EnemyBaseData enemyBaseData = FXGL.geto("enemyBaseData");
+        spawn(
+                "EnemyBase",
+                new SpawnData()
+                        .put("enemyBaseData", enemyBaseData)
+                        .put("position", FXGL.geto("enemyBasePos"))
+        );
+
+        spawn(
+                "Player",
+                new SpawnData()
+                        .put("playerData", playerData)
+        );
+        FXGL.set("killedRobots", 0);
     }
 
     public Point getPointFromPos(Point2D pos) {
@@ -26,12 +70,19 @@ public class Game {
         );
     }
 
-    public void removeEntityFromFXGLEntity(com.almasb.fxgl.entity.Entity entityToRemove) {
-        for (Entity ent : this.entities) {
-            if (ent.getGameEntity() == entityToRemove)
-                this.removeEntity(ent);
-            return;
+    public Entity getEntityFromFXGL(com.almasb.fxgl.entity.Entity ent) {
+        for (Entity enti : this.entities) {
+            if (enti.getGameEntity() == ent) {
+                return enti;
+            }
         }
+        return null;
+    }
+
+    public void removeEntityFromFXGLEntity(com.almasb.fxgl.entity.Entity entityToRemove) {
+        Entity ent = this.getEntityFromFXGL(entityToRemove);
+        ent.setActive(false);
+        this.removeEntity(ent);
     }
 
     public Point2D getPosFromPoint(int x, int y) {

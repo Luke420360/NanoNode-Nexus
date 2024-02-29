@@ -18,9 +18,15 @@ public abstract class Entity extends Component {
         this.maxHp = maxHP;
         this.dimensions = dimensions;
         this.entityType = type;
+        this.isActive = true;
         setHp(maxHP);
     }
 
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    protected boolean isActive;
     private String image;
     private int hp;
     private final int maxHp;

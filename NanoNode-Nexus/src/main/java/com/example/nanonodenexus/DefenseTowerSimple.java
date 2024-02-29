@@ -35,6 +35,7 @@ public class DefenseTowerSimple extends DefenseTower{
 
     @Override
     public void onUpdate(double tpf) {
+        if (!this.isActive) return;
         if (entity != null) {
             if (shootTimer.elapsed(shootInterval)) {
                 getGameWorld().getClosestEntity(entity, e -> e.isType(EntityType.ENEMY) || e.isType(EntityType.ENEMY_BASE))

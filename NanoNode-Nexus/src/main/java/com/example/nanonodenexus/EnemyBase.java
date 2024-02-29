@@ -35,10 +35,13 @@ public class EnemyBase extends Entity {
 
         if (timer.elapsed(interval)) {
             EnemyData enemyData = FXGL.geto("enemyData");
-            spawn(
+            Game game = FXGL.geto("gameInstance");
+            com.almasb.fxgl.entity.Entity FXGLEntity = spawn(
                     "Enemy",
                     new SpawnData().put("enemyData", enemyData)
             );
+            Enemy enemy = (Enemy) game.getEntityFromFXGL(FXGLEntity);
+            game.addLevelModifier(enemy);
             timer.capture();
         }
 //        if(this.getHp() <= 0) gameEnd();

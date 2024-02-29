@@ -20,10 +20,21 @@ public class Enemy extends Entity {
     private int damage = 20;
     private int droppedIron;
     private Entity player; // Reference to the player entity
+
+    public double getSpeed() {
+        return speed;
+    }
+
     private double speed = 150;
     private ArrayList<Point2D> destination;
     private LocalTimer timer = newLocalTimer();
     private Duration interval = Duration.seconds(2);
+
+    public void setModifier(int damage, double speed, int hp) {
+        this.setDamage(damage);
+        this.speed = speed;
+        this.setHp(hp);
+    }
 
     protected Enemy(EnemyData data) {
         super(new Point(250, 250), data.hp(), new Point(48, 48), EntityType.ENEMY);
@@ -82,6 +93,7 @@ public class Enemy extends Entity {
 
     @Override
     public void onUpdate(double tpf) {
+        if (!this.isActive) return;
         super.onUpdate(tpf);
         if (this.destination.isEmpty()) return;
         // Get the position component of the enemy and player

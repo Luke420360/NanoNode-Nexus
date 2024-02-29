@@ -131,6 +131,7 @@ public class MainApp extends GameApplication {
         double sceneHeight = FXGL.getAppHeight();
         info.setTranslateX(sceneWidth / 2 - info.getLayoutBounds().getWidth() / 2);
         info.setTranslateY(sceneHeight / 2 - info.getLayoutBounds().getHeight() / 2);
+        info.setFill(Color.RED);
         FXGL.addUINode(info);
 
         overlayPanelTitle = new Label("Overview");
@@ -193,6 +194,8 @@ public class MainApp extends GameApplication {
         }
 
         FXGL.set("enemyData", enemyData);
+        FXGL.set("enemyBaseData", enemyBaseData);
+        FXGL.set("playerData", playerData);
 
         spawn(
                 "EnemyBase",
@@ -213,7 +216,7 @@ public class MainApp extends GameApplication {
                         .put("position", new Point(0,0))
         );
 
-        setInfo("START", 3);
+        setInfo("LEVEL 1", 3);
     }
 
     @Override
@@ -250,6 +253,7 @@ public class MainApp extends GameApplication {
         if(playersIron < towerCost) return;
         set("iron", playersIron - towerCost);
         ironCount.setText("Iron: " + geti("iron"));
+        game.addEntity();
 
         spawn(
                 "Tower",
