@@ -111,16 +111,20 @@ public class NNNFactory implements EntityFactory {
         Point position = data.get("position");
         if(position == null) return null;
         System.out.println("planted");
-        // Create a rectangle that matches the hitbox size, adjust width and height accordingly
 
-        return entityBuilder(data)
+        DefenseTowerSimple tower = new DefenseTowerSimple(towerData, position);
+        Game game = FXGL.geto("gameInstance");
+        game.addEntity(tower);
+        Entity entity = entityBuilder(data)
                 .type(EntityType.TOWER)
                 .viewWithBBox(towerData.imageName())
                 .collidable()
                 .with(new TimeComponent())
                 .with(new HealthIntComponent(towerData.hp()))
-                .with(new DefenseTowerSimple(towerData, position))
+                .with(tower)
                 .with(new HealthbarComponent())
                 .build();
+        tower.addEntity(entity);
+        return entity;
     }
 }

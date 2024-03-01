@@ -253,7 +253,6 @@ public class MainApp extends GameApplication {
         if(playersIron < towerCost) return;
         set("iron", playersIron - towerCost);
         ironCount.setText("Iron: " + geti("iron"));
-        game.addEntity();
 
         spawn(
                 "Tower",

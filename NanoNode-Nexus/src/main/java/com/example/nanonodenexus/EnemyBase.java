@@ -33,9 +33,11 @@ public class EnemyBase extends Entity {
     @Override
     public void onUpdate(double tpf) {
 
+
         if (timer.elapsed(interval)) {
-            EnemyData enemyData = FXGL.geto("enemyData");
             Game game = FXGL.geto("gameInstance");
+            this.interval = Duration.seconds(5 - (double) game.getLevel() / 5);
+            EnemyData enemyData = FXGL.geto("enemyData");
             com.almasb.fxgl.entity.Entity FXGLEntity = spawn(
                     "Enemy",
                     new SpawnData().put("enemyData", enemyData)

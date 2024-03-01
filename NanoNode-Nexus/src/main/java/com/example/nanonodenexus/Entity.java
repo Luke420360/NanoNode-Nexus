@@ -54,6 +54,9 @@ public abstract class Entity extends Component {
         this.gameEntity = entity;
     }
 
+    public void addEntity(com.almasb.fxgl.entity.Entity entity) {
+        this.setEntity(entity);
+    }
     public int getMaxHp() {
         return this.maxHp;
     }

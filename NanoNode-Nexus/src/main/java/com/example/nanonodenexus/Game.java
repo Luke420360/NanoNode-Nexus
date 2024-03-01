@@ -10,6 +10,7 @@ import javafx.geometry.Rectangle2D;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -39,12 +40,25 @@ public class Game {
 
     public void levelUp () {
         this.level++;
-        FXGL.<MainApp>getAppCast().setInfo("LEVEL " + this.level + 1, 3);
+        FXGL.<MainApp>getAppCast().setInfo("LEVEL " + (this.level + 1), 3);
+
+        List<Entity> toBeRemoved = new ArrayList<>();
         for (Entity entity : this.entities) {
             entity.setActive(false);
-            this.removeEntity(entity);
-            FXGL.getGameWorld().removeEntity(entity.getGameEntity());
+            toBeRemoved.add(entity);
         }
+        for (Entity entity : toBeRemoved) {
+            if (entity.getGameEntity() != null) entity.getGameEntity().removeFromWorld();
+            this.removeEntity(entity);
+        }
+
+        FXGL.set("iron", 2000 + (500 * this.level));
+        Random random = new Random();
+        FXGL.set("enemyBasePos", new Point(
+                (random.nextInt(10) + 10) * 48,
+                (random.nextInt(10) + 10) * 48
+        ));
+
         PlayerData playerData = FXGL.geto("playerData");
         EnemyBaseData enemyBaseData = FXGL.geto("enemyBaseData");
         spawn(

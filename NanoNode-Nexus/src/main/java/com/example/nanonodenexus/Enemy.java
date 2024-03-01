@@ -46,10 +46,6 @@ public class Enemy extends Entity {
         return damage;
     }
 
-    public void addEntity(com.almasb.fxgl.entity.Entity entity) {
-        this.setEntity(entity);
-    }
-
     public void setDamage(int damage) {
         this.damage = damage;
     }
