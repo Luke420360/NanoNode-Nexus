@@ -36,7 +36,8 @@ public class EnemyBase extends Entity {
 
         if (timer.elapsed(interval)) {
             Game game = FXGL.geto("gameInstance");
-            this.interval = Duration.seconds(5 - (double) game.getLevel() / 5);
+            int duration = 5 -  geti("level") / 5;
+            this.interval = Duration.seconds(duration);
             EnemyData enemyData = FXGL.geto("enemyData");
             com.almasb.fxgl.entity.Entity FXGLEntity = spawn(
                     "Enemy",

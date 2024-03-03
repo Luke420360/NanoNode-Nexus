@@ -39,12 +39,10 @@ public class MainApp extends GameApplication {
     private Texture towerTexture;
     Label overlayPanelTitle;
     Label enemyKillCountLabel;
+    Label levelCountLabel;
     Label ironCount;
     private Maze maze;
-    private Enemy enemy;
-    Text textPixels = new Text("Iron: -");
     Text info = new Text("INFO");
-    Text textKilledRobots = new Text("Killed Robots:");
     private AStarGrid aStarGrid = new AStarGrid(20, 20);
     private MazePathfinding pathfinding;
     private double infoTimer = 3;
@@ -91,6 +89,7 @@ public class MainApp extends GameApplication {
 
         //Var for the Game
         vars.put("gameInstance", game);
+        vars.put("level", 1);
 
         //Vars for the GameField;
         vars.put("clearView",  4);
@@ -139,6 +138,7 @@ public class MainApp extends GameApplication {
         overlayPanelTitle.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         enemyKillCountLabel = new Label("Enemy Kills: 0");
         ironCount = new Label("Iron: " + geti("iron"));
+        levelCountLabel = new Label("Level: " + geti("level"));
 
         overlayPanelTitle.setTranslateX(10);
         overlayPanelTitle.setTranslateY(10);
@@ -146,6 +146,8 @@ public class MainApp extends GameApplication {
         enemyKillCountLabel.setTranslateY(40);
         ironCount.setTranslateX(10);
         ironCount.setTranslateY(55);
+        levelCountLabel.setTranslateX(10);
+        levelCountLabel.setTranslateY(70);
 
         Pane ovlyPnl = new Pane();
         Button btnTower = new Button("Tower");
@@ -158,6 +160,7 @@ public class MainApp extends GameApplication {
         ovlyPnl.getChildren().add(overlayPanelTitle);
         ovlyPnl.getChildren().add(enemyKillCountLabel);
         ovlyPnl.getChildren().add(ironCount);
+        ovlyPnl.getChildren().add(levelCountLabel);
 
         getGameScene().addUINode(ovlyPnl);
 
@@ -216,7 +219,7 @@ public class MainApp extends GameApplication {
                         .put("position", new Point(0,0))
         );
 
-        setInfo("LEVEL 1", 3);
+        setInfo("LEVEL " + geti("level"), 3);
     }
 
     @Override
@@ -227,6 +230,15 @@ public class MainApp extends GameApplication {
             hoverCircle.setCenterY(FXGL.getInput().getMouseYWorld());
             towerTexture.setX(FXGL.getInput().getMouseXWorld());
             towerTexture.setY(FXGL.getInput().getMouseYWorld());
+            Point initPoint = game.getPointFromPos( new Point2D(FXGL.getInput().getMouseXWorld(),FXGL.getInput().getMouseYWorld()));
+            int placeableRange = FXGL.geti("clearView");
+            if(initPoint.x() >= placeableRange || initPoint.y() >= placeableRange) hoverCircle.setStroke(Color.DARKRED);
+            else if(geti("iron")>= 500) {
+                hoverCircle.setStroke(Color.GREEN);
+            }
+            else {
+                hoverCircle.setStroke(Color.INDIANRED);
+            }
         });
 
         FXGL.getInput().addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
@@ -288,11 +300,12 @@ public class MainApp extends GameApplication {
         enemyKillCountLabel.setText("Enemy Kills: " + killedRobots);
         set("iron", geti("iron") + 150);
         ironCount.setText("Iron: " + geti("iron"));
+        if(geti("iron") >= 500) {
+            hoverCircle.setStroke(Color.GREEN);
+        }
     }
 
-    public void gameEnd(){
-        infoTimer = 5;
-        info.setText("Won!");
+    public void setLevelCountLabel(String levelCountLabel) {
+        this.levelCountLabel.setText(levelCountLabel);
     }
-
 }

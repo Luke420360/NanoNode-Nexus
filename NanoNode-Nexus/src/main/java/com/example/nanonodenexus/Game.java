@@ -19,28 +19,27 @@ public class Game {
     private List<Entity> entities;
     private int iron;
 
-    public int getLevel() {
-        return level;
-    }
-
-    private int level = 0;
     public Game() {
         this.entities = new ArrayList<>();
         this.iron = 1000;
     }
 
     public Enemy addLevelModifier(Enemy enemy) {
+        int level = geti("level");
         enemy.setModifier(
-                enemy.getDamage() + this.level * 5,
-                enemy.getSpeed() + this.level * 25,
-                enemy.getHp() + this.level * 25
+                enemy.getDamage() + level * 5,
+                enemy.getSpeed() + level * 25,
+                enemy.getHp() + level * 25
         );
         return enemy;
     }
 
     public void levelUp () {
-        this.level++;
-        FXGL.<MainApp>getAppCast().setInfo("LEVEL " + (this.level + 1), 3);
+        int level = geti("level");
+
+        set("level",level+1);
+        FXGL.<MainApp>getAppCast().setLevelCountLabel("level " + geti("level"));
+        FXGL.<MainApp>getAppCast().setInfo("LEVEL " + geti("level"), 3);
 
         List<Entity> toBeRemoved = new ArrayList<>();
         for (Entity entity : this.entities) {
@@ -52,7 +51,7 @@ public class Game {
             this.removeEntity(entity);
         }
 
-        FXGL.set("iron", 2000 + (500 * this.level));
+        FXGL.set("iron", 2000 + (500 * level));
         Random random = new Random();
         FXGL.set("enemyBasePos", new Point(
                 (random.nextInt(10) + 10) * 48,
