@@ -5,5 +5,6 @@ public record PlayerData(
         int reward,
         double moveSpeed,
         double interval,
-        String imageName
+        String imageName,
+        String imageName2
 ) {}

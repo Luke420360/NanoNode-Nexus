@@ -42,6 +42,7 @@ public class Game {
         FXGL.<MainApp>getAppCast().setInfo("LEVEL " + geti("level"), 3);
 
         List<Entity> toBeRemoved = new ArrayList<>();
+        FXGL.<MainApp>getAppCast().removePlayer();
         for (Entity entity : this.entities) {
             entity.setActive(false);
             toBeRemoved.add(entity);
@@ -51,7 +52,7 @@ public class Game {
             this.removeEntity(entity);
         }
 
-        FXGL.set("iron", 2000 + (500 * level));
+        FXGL.set("iron", 1000 + (500 * level));
         Random random = new Random();
         FXGL.set("enemyBasePos", new Point(
                 (random.nextInt(10) + 10) * 48,

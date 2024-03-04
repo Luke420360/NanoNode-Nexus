@@ -17,7 +17,7 @@ import static com.almasb.fxgl.dsl.FXGL.spawn;
 
 public class Enemy extends Entity {
 
-    private int damage = 20;
+    private int damage = 30;
     private int droppedIron;
     private Entity player; // Reference to the player entity
 

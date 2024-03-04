@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -41,11 +42,13 @@ public class MainApp extends GameApplication {
     Label enemyKillCountLabel;
     Label levelCountLabel;
     Label ironCount;
+    Label towerCostLabel;
     private Maze maze;
     Text info = new Text("INFO");
     private AStarGrid aStarGrid = new AStarGrid(20, 20);
     private MazePathfinding pathfinding;
     private double infoTimer = 3;
+    private com.almasb.fxgl.entity.Entity player;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -53,7 +56,7 @@ public class MainApp extends GameApplication {
         settings.setWidth(960);
         settings.setHeight(960);
         settings.setTitle("NanoNode - Nexus");
-        settings.setVersion("0.1");
+        settings.setVersion("1.0");
     }
 
     @Override
@@ -90,6 +93,7 @@ public class MainApp extends GameApplication {
         //Var for the Game
         vars.put("gameInstance", game);
         vars.put("level", 1);
+        vars.put("towerCost", 500);
 
         //Vars for the GameField;
         vars.put("clearView",  4);
@@ -110,7 +114,7 @@ public class MainApp extends GameApplication {
         vars.put("playerPos", new Point(
                 0, 0
         ));
-        vars.put("iron",  2000);
+        vars.put("iron",  1000);
 
         //Vars for the Enemy
         vars.put("killedRobots",  0);
@@ -134,33 +138,48 @@ public class MainApp extends GameApplication {
         FXGL.addUINode(info);
 
         overlayPanelTitle = new Label("Overview");
-        overlayPanelTitle.setTextFill(Color.DARKGREEN);
+        overlayPanelTitle.setTextFill(Color.rgb(9,24,51));
         overlayPanelTitle.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+
         enemyKillCountLabel = new Label("Enemy Kills: 0");
+        enemyKillCountLabel.setTextFill(Color.rgb(19,62,124));
+        enemyKillCountLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+
         ironCount = new Label("Iron: " + geti("iron"));
+        ironCount.setTextFill(Color.rgb(19,62,124));
+        ironCount.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+
         levelCountLabel = new Label("Level: " + geti("level"));
+        levelCountLabel.setTextFill(Color.rgb(19,62,124));
+        levelCountLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+
+        towerCostLabel = new Label("Tower cost: " + geti("towerCost") + " iron");
+        towerCostLabel.setTextFill(Color.rgb(19, 62, 124));
+        towerCostLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
 
         overlayPanelTitle.setTranslateX(10);
         overlayPanelTitle.setTranslateY(10);
         enemyKillCountLabel.setTranslateX(10);
-        enemyKillCountLabel.setTranslateY(40);
+        enemyKillCountLabel.setTranslateY(35);
         ironCount.setTranslateX(10);
         ironCount.setTranslateY(55);
         levelCountLabel.setTranslateX(10);
-        levelCountLabel.setTranslateY(70);
+        levelCountLabel.setTranslateY(75);
+        towerCostLabel.setTranslateX(10);
+        towerCostLabel.setTranslateY(95);
 
         Pane ovlyPnl = new Pane();
-        Button btnTower = new Button("Tower");
-        ovlyPnl.setPrefSize(200, 100);
+        ovlyPnl.setPrefSize(200, 150);
         ovlyPnl.setLayoutX(getAppWidth() -220);
         ovlyPnl.setLayoutY(10);
-        ovlyPnl.setStyle("-fx-background-color: rgba(200, 255, 200, 0.4);");
+        ovlyPnl.setStyle("-fx-background-color: rgba(40, 229, 248, 0.7);");
         ovlyPnl.toFront();
 
         ovlyPnl.getChildren().add(overlayPanelTitle);
         ovlyPnl.getChildren().add(enemyKillCountLabel);
         ovlyPnl.getChildren().add(ironCount);
         ovlyPnl.getChildren().add(levelCountLabel);
+        ovlyPnl.getChildren().add(towerCostLabel);
 
         getGameScene().addUINode(ovlyPnl);
 
@@ -185,8 +204,10 @@ public class MainApp extends GameApplication {
 
     @Override
     protected void initGame() {
+        getGameScene().setBackgroundColor(Color.rgb(124,0,227));
         getGameWorld().addEntityFactory(new NNNFactory());
         pathfinding.renderMaze();
+
         EnemyData enemyData = getAssetLoader().loadJSON("enemies/enemy.json" , EnemyData.class).orElse(null);
         PlayerData playerData = getAssetLoader().loadJSON("players/player.json" , PlayerData.class).orElse(null);
         EnemyBaseData enemyBaseData = getAssetLoader().loadJSON("enemyBase/enemyBase.json" , EnemyBaseData.class).orElse(null);
@@ -207,7 +228,7 @@ public class MainApp extends GameApplication {
                         .put("position", FXGL.geto("enemyBasePos"))
         );
 
-        spawn(
+        player = spawn(
                 "Player",
                 new SpawnData()
                         .put("playerData", playerData)
@@ -241,15 +262,16 @@ public class MainApp extends GameApplication {
             }
         });
 
+        onKeyDown(KeyCode.S, "Save", () -> {
+            System.out.println("Saving");
+            getSaveLoadService().saveAndWriteTask("save1.sav").run();
+        });
+
         FXGL.getInput().addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
-            if (event.getButton() == MouseButton.SECONDARY) {
+           if (event.getButton() == MouseButton.PRIMARY) {
                 int x = (int)  FXGL.getInput().getMouseXWorld();
                 int y = (int)  FXGL.getInput().getMouseYWorld();
                 addTower(x, y);
-            }
-            else if (event.getButton() == MouseButton.PRIMARY) {
-                int x = (int)  FXGL.getInput().getMouseXWorld();
-                int y = (int)  FXGL.getInput().getMouseYWorld();
             }
         });
     }
@@ -307,5 +329,14 @@ public class MainApp extends GameApplication {
 
     public void setLevelCountLabel(String levelCountLabel) {
         this.levelCountLabel.setText(levelCountLabel);
+    }
+
+    public void removePlayer() {
+        player.removeFromWorld();
+    }
+
+    public void setGameEnd() {
+        player.removeFromWorld();
+        getGameController().pauseEngine();
     }
 }

@@ -46,6 +46,7 @@ public class HealthbarComponent extends ChildViewComponent {
             } else if (entity.isType(EntityType.PLAYER)) {
                 MainApp app = FXGL.geto("setInfo");
                 app.setInfo("YOU DIED!", 10);
+                app.setGameEnd();
             }
             else if (entity.isType(EntityType.ENEMY_BASE)) {
                 entity.removeFromWorld();

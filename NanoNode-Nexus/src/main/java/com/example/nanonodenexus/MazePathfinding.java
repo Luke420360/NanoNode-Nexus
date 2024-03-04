@@ -45,7 +45,6 @@ public class MazePathfinding {
 
             closedSet.add(current);
 
-            Rectangle rect = new Rectangle(3, 3, Color.GREEN);
 //            FXGL.entityBuilder()
 //                    .at((current.getX()+.5) * maceCellWidth, (current.getY()+.5) * maceCellWidth)
 //                    .view(rect)
@@ -133,9 +132,9 @@ public class MazePathfinding {
             boolean leftWall = mazeCell.hasLeftWall();
             int maceCellWidth = FXGL.geti("maceCellWidth");
 
-            Rectangle rect = new Rectangle(maceCellWidth - (leftWall ? 1 : 0), maceCellWidth - (topWall ? 1 : 0), Color.GREY);
+            Rectangle rect = new Rectangle(maceCellWidth - (leftWall ? 2 : 0), maceCellWidth - (topWall ? 2 : 0), Color.rgb(63,8,95));
             FXGL.entityBuilder()
-                    .at((x * maceCellWidth) + (leftWall ? 1 : 0), (y * maceCellWidth) + (topWall ? 1 : 0))
+                    .at((x * maceCellWidth) + (leftWall ? 2 : 0), (y * maceCellWidth) + (topWall ? 2 : 0))
                     .view(rect)
                     .with(new EffectComponent())
                     .buildAndAttach();
